@@ -13,7 +13,7 @@ import javax.swing.Timer;
 
 public class Panel extends JPanel implements ActionListener, KeyListener {
 	Timer timer;
-
+Manager manager;
 	Font font;
 	Font font2;
 	final int menuState = 0;
@@ -23,11 +23,13 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	final int deadState = 4;
 	final int victoryState = 5;
 	int currentState = menuState;
-
+AntiVirus exterminator = new AntiVirus(875,850,50,50);
 	Panel() {
 		timer = new Timer(1000 / 60, this);
 		font = new Font("Bangla MN", Font.PLAIN, 72);
 		font2 = new Font("Bangla MN", Font.PLAIN, 36);
+	manager = new Manager();
+	manager.addObject(exterminator);
 	}
 
 	public void keyTyped(KeyEvent e) {
@@ -37,26 +39,37 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == menuState) {
 				currentState = selectModeState;
-			}
-			else if (currentState == deadState) {
+			} else if (currentState == deadState) {
+				currentState = menuState;
+			} else if (currentState == victoryState) {
 				currentState = menuState;
 			}
-			else if (currentState == victoryState) {
-				currentState = menuState;
+		} else if (e.getKeyCode() == KeyEvent.VK_R) {
+			if (currentState == selectModeState) {
+				currentState = selectAntiVirusState;
+			} else if (currentState == selectAntiVirusState) {
+				currentState = gameState;
 			}
-		}
-		if (e.getKeyCode() == KeyEvent.VK_R) {
+		} else if (e.getKeyCode() == KeyEvent.VK_H) {
+			if (currentState == selectModeState) {
+				currentState = selectAntiVirusState;
+			} else if (currentState == selectAntiVirusState) {
+				currentState = gameState;
+			}
+		} else if (e.getKeyCode() == KeyEvent.VK_E) {
 			if (currentState == selectModeState) {
 				currentState = selectAntiVirusState;
 			}
-			else if (currentState == selectAntiVirusState) {
+
+		} else if (e.getKeyCode() == KeyEvent.VK_P) {
+
+			if (currentState == selectAntiVirusState) {
 				currentState = gameState;
 			}
 		}
-		
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -66,25 +79,25 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-repaint();
-if(currentState == menuState) {
-	updateMenuState();
-}
-if(currentState == selectModeState) {
-	updateSelectModeState();
-}
-if(currentState == selectAntiVirusState) {
-	updateSelectAntiVirusState();
-}
-if(currentState == gameState) {
-	updateGameState();
-}
-if(currentState == deadState) {
-	updateDeadState();
-}
-if(currentState == victoryState) {
-	updateVictoryState();
-}
+		repaint();
+		if (currentState == menuState) {
+			updateMenuState();
+		}
+		if (currentState == selectModeState) {
+			updateSelectModeState();
+		}
+		if (currentState == selectAntiVirusState) {
+			updateSelectAntiVirusState();
+		}
+		if (currentState == gameState) {
+			updateGameState();
+		}
+		if (currentState == deadState) {
+			updateDeadState();
+		}
+		if (currentState == victoryState) {
+			updateVictoryState();
+		}
 	}
 
 	public void paintComponent(Graphics g) {
@@ -100,25 +113,32 @@ if(currentState == victoryState) {
 			drawDeadState(g);
 		}
 	}
-void updateMenuState() {
-	
-}
-void updateSelectModeState() {
-	
-}
-void updateSelectAntiVirusState() {
-	
-}
-void updateGameState() {
-	
-}
-void updateDeadState() {
-	
-}
-void updateVictoryState() {
-	
-}
-void drawMenuState(Graphics g) {
+
+	void updateMenuState() {
+
+	}
+
+	void updateSelectModeState() {
+
+	}
+
+	void updateSelectAntiVirusState() {
+
+	}
+
+	void updateGameState() {
+manager.manageViruses();
+	}
+
+	void updateDeadState() {
+
+	}
+
+	void updateVictoryState() {
+
+	}
+
+	void drawMenuState(Graphics g) {
 
 		g.setFont(font);
 		g.drawString("Virus Extermination!", 565, 450);
@@ -143,7 +163,7 @@ void drawMenuState(Graphics g) {
 	}
 
 	void drawGameState(Graphics g) {
-
+manager.draw(g);
 	}
 
 	void drawDeadState(Graphics g) {

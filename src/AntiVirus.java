@@ -7,8 +7,9 @@ public AntiVirus(int x, int y, int width, int height) {
 	super(x, y, width, height);
 }
 void draw(Graphics g) {
-	g.setColor(Color.WHITE);
-	g.drawRect(700, 700, 50, 50);
+	g.setColor(Color.RED);
+	g.fillRect(x, y, width, height);
+System.out.println("Draw AntiVirus was called");
 }
 void update() {
 	super.update();

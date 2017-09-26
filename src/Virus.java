@@ -7,7 +7,8 @@ public Virus(int x, int y, int width, int height) {
 }
 void draw(Graphics g) {
 	g.setColor(Color.GREEN);
-	g.drawRect(250, 250, 50, 50);
+	g.fillRect(x, y, width, height);
+System.out.println("Draw Virus was called");
 }
 void update() {
 	y+=2;

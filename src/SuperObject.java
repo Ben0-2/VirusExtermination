@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class SuperObject {
@@ -20,7 +21,7 @@ public class SuperObject {
 		collisionBox.setBounds(x, y, width, height);
 	}
 
-	void draw() {
+	void draw(Graphics g) {
 
 	}
 }
