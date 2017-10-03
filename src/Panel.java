@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Panel extends JPanel implements ActionListener, KeyListener {
+	boolean virusesDrawn = false;
 	Timer timer;
 Manager manager;
 	Font font;
@@ -70,6 +71,17 @@ AntiVirus exterminator = new AntiVirus(875,850,50,50);
 				currentState = gameState;
 			}
 		}
+		else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			exterminator.x +=15;
+			
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+			exterminator.x -=15;
+			
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			manager.addObject(new Code(exterminator.x+25, exterminator.y, 5, 5));
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -127,7 +139,9 @@ AntiVirus exterminator = new AntiVirus(875,850,50,50);
 	}
 
 	void updateGameState() {
-manager.manageViruses();
+
+	manager.update();
+	manager.checkCollision();
 	}
 
 	void updateDeadState() {
@@ -164,7 +178,11 @@ manager.manageViruses();
 
 	void drawGameState(Graphics g) {
 manager.draw(g);
-	}
+if(virusesDrawn == false) {
+	manager.manageViruses();
+	virusesDrawn = true;
+}
+}
 
 	void drawDeadState(Graphics g) {
 		g.setFont(font);
