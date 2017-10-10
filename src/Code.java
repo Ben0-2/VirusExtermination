@@ -13,7 +13,8 @@ void draw(Graphics g) {
 	
 }
 void update() {
-	super.update();
 	y-=speed;
+	super.update();
+	
 }
 }

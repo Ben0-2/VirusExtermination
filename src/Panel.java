@@ -24,13 +24,13 @@ Manager manager;
 	final int deadState = 4;
 	final int victoryState = 5;
 	int currentState = menuState;
-AntiVirus exterminator = new AntiVirus(875,850,50,50);
+
 	Panel() {
 		timer = new Timer(1000 / 60, this);
 		font = new Font("Bangla MN", Font.PLAIN, 72);
 		font2 = new Font("Bangla MN", Font.PLAIN, 36);
 	manager = new Manager();
-	manager.addObject(exterminator);
+	
 	}
 
 	public void keyTyped(KeyEvent e) {
@@ -65,22 +65,22 @@ AntiVirus exterminator = new AntiVirus(875,850,50,50);
 				currentState = selectAntiVirusState;
 			}
 
-		} else if (e.getKeyCode() == KeyEvent.VK_P) {
+		} else if (e.getKeyCode() == KeyEvent.VK_S) {
 
 			if (currentState == selectAntiVirusState) {
 				currentState = gameState;
 			}
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			exterminator.x +=15;
+			manager.anti.x +=10;
 			
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-			exterminator.x -=15;
+			manager.anti.x -=10;
 			
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-			manager.addObject(new Code(exterminator.x+25, exterminator.y, 5, 5));
+			manager.addCode(new Code(manager.anti.x+25, manager.anti.y, 5, 5));
 		}
 	}
 
@@ -91,7 +91,6 @@ AntiVirus exterminator = new AntiVirus(875,850,50,50);
 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		repaint();
 		if (currentState == menuState) {
 			updateMenuState();
 		}
@@ -110,6 +109,7 @@ AntiVirus exterminator = new AntiVirus(875,850,50,50);
 		if (currentState == victoryState) {
 			updateVictoryState();
 		}
+		repaint();
 	}
 
 	public void paintComponent(Graphics g) {
@@ -169,11 +169,11 @@ AntiVirus exterminator = new AntiVirus(875,850,50,50);
 
 	void drawSelectAntiVirusState(Graphics g) {
 		g.setFont(font);
-		g.drawString("Choose an Anti-virus Software!", 565, 250);
+		g.drawString("Choose an Anti-virus Software!", 300, 250);
 		g.setFont(font2);
-		g.drawString("Press H for Health Software", 125, 450);
-		g.drawString("Press R for Regular Software", 725, 450);
-		g.drawString("Press P for Power Software", 1325, 450);
+		
+		g.drawString("Press R for Regular Software", 400, 450);
+		g.drawString("Press S for Scatter Software", 1100, 450);
 	}
 
 	void drawGameState(Graphics g) {

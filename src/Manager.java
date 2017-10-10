@@ -3,92 +3,111 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class Manager {
+AntiVirus anti;
 	int numViruses = 0;
-	ArrayList<SuperObject> objects;
+	ArrayList<Code> codes;
+	ArrayList<Virus> viruses;
 	Rectangle collisionBox;
 	private int score = 0;
 	long virusTimer = 0;
 	int virusSpawnTime = 1000;
-Virus virus;
+	Virus virus;
+
 	public Manager() {
-		objects = new ArrayList<SuperObject>();
-
+		viruses = new ArrayList<Virus>();
+        codes = new ArrayList<Code>();
+	    anti = new AntiVirus(875,850,50,50);
 	}
 
-	void addObject(SuperObject o) {
-		objects.add(o);
+	void addVirus(Virus o) {
+		viruses.add(o);
 	}
+    void addCode(Code c) {
+    	codes.add(c);
+    }
+    void addAntiVirus(AntiVirus a) {
+    	anti = a;
+    	
+    }
+    void checkCollision() {
+    	for(Code c: codes ) {
+    		checkCollision(c);
+    	}
+    }
+	void checkCollision(Code c) {
 
-	void checkCollision() {
-		
-		for (int i = 0; i < objects.size(); i++) {
-		
-			for (int j = 0; j < objects.size(); j++) {
-				SuperObject o1 = objects.get(i);
-				SuperObject o2 = objects.get(i);
-				if (o1.collisionBox.intersects(o2.collisionBox)) {
-					System.out.println("Two objects hit each other");
-					if ((o1 instanceof Virus && o2 instanceof Code) || (o2 instanceof Virus && o1 instanceof Code)) {
-	             
-						o1.isAlive = false;
-	               o2.isAlive = false;
-					}
-					else if(o1.collisionBox.intersects(o2.collisionBox)) {
-					if((o1 instanceof AntiVirus && o2 instanceof Virus)||(o1 instanceof Virus && o2 instanceof AntiVirus)) {
-						o1.isAlive = false;
-						o2.isAlive = false;
-					}
-				}
-				}
+		for (int i = 0; i < viruses.size(); i++) {
+
+			Virus v = viruses.get(i);
+
+			if (v.collisionBox.intersects(c.collisionBox)) {
+
+				v.isAlive = false;
+				c.isAlive = false;
 			}
-			
+
 		}
 	}
 
 	void manageViruses() {
-for(int a = 1; a<5; a++) {
-		int m = 1;
+		for (int a = 1; a < 4; a++) {
+			int m = 1;
+
+			for (int i = 1; i < 16; i++) {
+				for (int j = 0; j < 15; j++) {
+					addVirus(new Virus(10 * j + a * 500 - 200, i * 10 + 200, 7, 7, m));
+					numViruses += 1;
+				}
+
+			}
+			if (m < 3) {
+				m += 1;
+			}
 		
-	for (int i = 1; i < 16; i++) {
-	for (int j = 0; j < 15; j++) {
-		addObject(new Virus(10*j+a*500, i*10 + 200, 7, 7, m));
-		numViruses+=1;
+		}
 	}
 
-}
-	if(m<3) {
-		m+=1;
-	}
-}
-	}
 	void reset() {
-		objects.clear();
+		viruses.clear();
 	}
 
 	void draw(Graphics g) {
-		//OBJECTS SIZE SHOULD BE 4, NOT 1
-		for (int i = 0; i < objects.size(); i++) {
-			SuperObject o = objects.get(i);
-			o.draw(g);
+		// OBJECTS SIZE SHOULD BE 4, NOT 1
+		for (Virus v: viruses) {
+		
+			v.draw(g);
 		}
-	
+		for(Code c: codes) {
+		 c.draw(g);
+		}
+		anti.draw(g);
 	}
 
 	void update() {
-		for (int i = 0; i < objects.size(); i++) {
-			SuperObject o = objects.get(i);
-			o.update();
-	
+		for (Virus v: viruses) {
+			
+			v.update();
+
 		}
+	for(Code c: codes) {
+		c.update();
+	}
 		destroyObjects();
 	}
 
 	void destroyObjects() {
-		for (int i = 0; i < objects.size(); i++) {
-			if (!objects.get(i).isAlive) {
-				objects.remove(i);
+		for (int i = 0; i<viruses.size(); i++) {
+		Virus v = viruses.get(i);
+			if (!v.isAlive) {
+				viruses.remove(v);
 			}
 		}
+	for(int i = 0; i<codes.size(); i++) {
+		Code c = codes.get(i);
+		if(!c.isAlive) {
+			codes.remove(c);
+		}
+	}
 	}
 
 	int getScore() {
