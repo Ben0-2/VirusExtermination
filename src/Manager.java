@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Manager {
 AntiVirus anti;
-	int numViruses = 0;
+
+
 	ArrayList<Code> codes;
 	ArrayList<Virus> viruses;
 	Rectangle collisionBox;
@@ -41,7 +42,7 @@ AntiVirus anti;
 			Virus v = viruses.get(i);
 
 			if (v.collisionBox.intersects(c.collisionBox)) {
-
+Panel.numViruses-=1;
 				v.isAlive = false;
 				c.isAlive = false;
 			}
@@ -50,13 +51,14 @@ AntiVirus anti;
 	}
 
 	void manageViruses() {
+		Panel.numViruses = 0;
 		for (int a = 1; a < 4; a++) {
 			int m = 1;
 
 			for (int i = 1; i < 16; i++) {
 				for (int j = 0; j < 15; j++) {
 					addVirus(new Virus(10 * j + a * 500 - 200, i * 10 + 200, 7, 7, m));
-					numViruses += 1;
+					Panel.numViruses += 1;
 				}
 
 			}
