@@ -5,7 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,7 +20,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 String  PLeft = Double.toString(100.0 * 675 / 675);
 	boolean virusesDrawn = false;
 	static int numViruses = 0;
-	static int secondsLeft = 5;
+	static int secondsLeft = 240;
 	Timer timer;
 	Timer gameTimer;
 	Manager manager;
@@ -28,7 +33,7 @@ String  PLeft = Double.toString(100.0 * 675 / 675);
 	final int deadState = 4;
 	final int victoryState = 5;
 	int currentState = menuState;
-
+public static BufferedImage Bees;
 	Panel() {
 		timer = new Timer(1000 / 60, this);
 		 gameTimer = new Timer(1000, new GameTimer());
@@ -124,7 +129,7 @@ String  PLeft = Double.toString(100.0 * 675 / 675);
 		} else if (currentState == selectAntiVirusState) {
 			drawSelectAntiVirusState(g);
 		} else if (currentState == gameState) {
-			 if(PLeft.equals("0.0")) {
+			 if(PLeft.equals("100.0")) {
 				currentState = victoryState;
 			}
 			 
@@ -169,12 +174,17 @@ String  PLeft = Double.toString(100.0 * 675 / 675);
 	}
 
 	void drawMenuState(Graphics g) {
-
-		g.setFont(font);
+g.setColor(Color.WHITE);
+g.fillRect(0, 0, 1900, 1000);
+		g.setColor(Color.black);
+g.setFont(font);
 		g.drawString("Virus Extermination!", 565, 450);
 	}
 
 	void drawSelectModeState(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 1900, 1000);
+		g.setColor(Color.black);
 		g.setFont(font);
 		g.drawString("Choose a Mode!", 565, 250);
 		g.setFont(font2);
@@ -185,6 +195,9 @@ String  PLeft = Double.toString(100.0 * 675 / 675);
 	}
 
 	void drawSelectAntiVirusState(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 1900, 1000);
+		g.setColor(Color.black);
 		g.setFont(font);
 		g.drawString("Choose an Anti-virus Software!", 300, 250);
 		g.setFont(font2);
@@ -194,6 +207,9 @@ String  PLeft = Double.toString(100.0 * 675 / 675);
 	}
 
 	void drawGameState(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 1900, 1000);
+		g.setColor(Color.black);
 		manager.draw(g);
 		if (virusesDrawn == false) {
 			manager.manageViruses();
@@ -216,18 +232,36 @@ String  PLeft = Double.toString(100.0 * 675 / 675);
 	}
 
 	void drawDeadState(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 1900, 1000);
+		g.setColor(Color.black);
 		g.setFont(font);
 		g.drawString("Game Over!", 565, 500);
 	}
 
 	void drawVictoryState(Graphics g) {
-     g.setFont(font);
+		playMarioBrosTheme();
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 1900, 1000);
+		g.setColor(Color.black);
+		g.setFont(font);		
 		g.drawString("You Won! Congratulations!", 450, 500);
 	}
 
 	public void startGame() {
 		timer.start();
 gameTimer.start();
+	
 	}
-
-}
+	public void playMarioBrosTheme() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem
+					.getAudioInputStream(new File("Wiin.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+			System.out.println("Made It!");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}}
