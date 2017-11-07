@@ -8,8 +8,7 @@ public AntiVirus(int x, int y, int width, int height) {
 	super(x, y, width, height);
 }
 void draw(Graphics g) {
-	g.setColor(Color.RED);
-	g.fillRect(x, y, width, height);
+	g.drawImage(Panel.antiVirusImg, x, y, width, height, null);
 
 }
 void update() {

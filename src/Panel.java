@@ -1,13 +1,16 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -17,10 +20,14 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Panel extends JPanel implements ActionListener, KeyListener {
-String  PLeft = Double.toString(100.0 * 675 / 675);
-	boolean virusesDrawn = false;
-	static int numViruses = 0;
-	static int secondsLeft = 240;
+	public static BufferedImage virusImg;
+	public static BufferedImage codeImg;
+	public static BufferedImage antiVirusImg;	
+	String  PLeft = Double.toString(100.0 * 675 / 675);
+	boolean songPlayed = false;
+boolean virusesDrawn = false;
+	static int numViruses = 675;
+	static int secondsLeft = 3;
 	Timer timer;
 	Timer gameTimer;
 	Manager manager;
@@ -35,6 +42,20 @@ String  PLeft = Double.toString(100.0 * 675 / 675);
 	int currentState = menuState;
 public static BufferedImage Bees;
 	Panel() {
+		try {
+			virusImg = ImageIO.read(this.getClass().getResourceAsStream("Bees.jpg"));
+			codeImg=ImageIO.read(this.getClass().getResourceAsStream("Code.jpg"));
+	       antiVirusImg=ImageIO.read(this.getClass().getResourceAsStream("GalagaShip.jpg"));
+			if(codeImg!=null) {
+	        	System.out.println("Code Image loaded");
+	        }else {
+	        	System.out.println("Code Image not loaded");
+	        }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		
+		}
 		timer = new Timer(1000 / 60, this);
 		 gameTimer = new Timer(1000, new GameTimer());
 		font = new Font("Bangla MN", Font.PLAIN, 72);
@@ -129,7 +150,7 @@ public static BufferedImage Bees;
 		} else if (currentState == selectAntiVirusState) {
 			drawSelectAntiVirusState(g);
 		} else if (currentState == gameState) {
-			 if(PLeft.equals("100.0")) {
+			 if(PLeft.equals("0.0")) {
 				currentState = victoryState;
 			}
 			 
@@ -219,7 +240,7 @@ g.setFont(font);
 	int min= secondsLeft/60;
 	int seconds = secondsLeft%60;
  PLeft = Double.toString(100.0 * numViruses / 675);
-		String roundDown = PLeft.substring(0, 5);
+		String roundDown = PLeft.substring(0, 4);
 		
 		g.setFont(font2);
 		g.drawString("Percent Left: " + roundDown + " %", 1300, 150);
@@ -232,6 +253,7 @@ g.setFont(font);
 	}
 
 	void drawDeadState(Graphics g) {
+		playGameOverTheme();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1900, 1000);
 		g.setColor(Color.black);
@@ -240,7 +262,11 @@ g.setFont(font);
 	}
 
 	void drawVictoryState(Graphics g) {
-		playMarioBrosTheme();
+		if(songPlayed==false) {
+			playMarioBrosTheme();
+			songPlayed=true;
+		}
+		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1900, 1000);
 		g.setColor(Color.black);
@@ -255,13 +281,23 @@ gameTimer.start();
 	}
 	public void playMarioBrosTheme() {
 		try {
-			AudioInputStream audioInputStream = AudioSystem
-					.getAudioInputStream(new File("Wiin.wav"));
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Wiin.wav"));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-			System.out.println("Made It!");
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	}}
+	}
+public void playGameOverTheme() {
+	try {
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("DeadSound.wav"));
+		Clip clip = AudioSystem.getClip();
+		clip.open(audioInputStream);
+		clip.start();
+		
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	}
+}}

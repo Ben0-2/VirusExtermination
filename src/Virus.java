@@ -11,8 +11,7 @@ public Virus(int x, int y, int width, int height, int gridNum) {
 
 	}
 void draw(Graphics g) {
-	g.setColor(Color.GREEN);
-	g.fillRect(x, y, width, height);
+	g.drawImage(Panel.virusImg, x, y, width, height, null);
 
 }
 void update() {
