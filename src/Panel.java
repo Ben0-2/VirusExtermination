@@ -253,7 +253,7 @@ g.setFont(font);
 	}
 
 	void drawDeadState(Graphics g) {
-		playGameOverTheme();
+	
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1900, 1000);
 		g.setColor(Color.black);
@@ -290,14 +290,4 @@ gameTimer.start();
 			ex.printStackTrace();
 		}
 	}
-public void playGameOverTheme() {
-	try {
-		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("DeadSound.wav"));
-		Clip clip = AudioSystem.getClip();
-		clip.open(audioInputStream);
-		clip.start();
-		
-	} catch (Exception ex) {
-		ex.printStackTrace();
-	}
-}}
+}
