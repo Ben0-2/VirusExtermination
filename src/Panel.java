@@ -25,9 +25,12 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage antiVirusImg;	
 	String  PLeft = Double.toString(100.0 * 675 / 675);
 	boolean songPlayed = false;
-boolean virusesDrawn = false;
+    boolean songPlayed2 = false;
+	boolean virusesDrawn = false;
 	static int numViruses = 675;
-	static int secondsLeft = 3;
+	static int numViruses2 = 180;
+	static int secondsLeft = 225;
+	static int secondsLeft2 = 100;
 	Timer timer;
 	Timer gameTimer;
 	Manager manager;
@@ -39,7 +42,8 @@ boolean virusesDrawn = false;
 	final int gameState = 3;
 	final int deadState = 4;
 	final int victoryState = 5;
-	int currentState = menuState;
+	final int stage2State = 6;
+	int currentState = stage2State;
 public static BufferedImage Bees;
 	Panel() {
 		try {
@@ -77,7 +81,7 @@ public static BufferedImage Bees;
 			} else if (currentState == deadState) {
 				currentState = menuState;
 			} else if (currentState == victoryState) {
-				currentState = menuState;
+				currentState = stage2State;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
 			if (currentState == selectModeState) {
@@ -119,29 +123,19 @@ public static BufferedImage Bees;
 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (currentState == menuState) {
-			updateMenuState();
-		}
-		if (currentState == selectModeState) {
-			updateSelectModeState();
-		}
-		if (currentState == selectAntiVirusState) {
-			updateSelectAntiVirusState();
-		}
+		
 		if (currentState == gameState) {
 			updateGameState();
 		}
-		if (currentState == deadState) {
-			updateDeadState();
+	
+		else if(currentState == stage2State) {
+			updateStage2State();
 		}
-		if (currentState == victoryState) {
-			updateVictoryState();
-		}
-		
 		
 		repaint();
 	}
 
+	
 	public void paintComponent(Graphics g) {
 		if (currentState == menuState) {
 			drawMenuState(g);
@@ -165,7 +159,9 @@ public static BufferedImage Bees;
 		else if (currentState == deadState) {
 			drawDeadState(g);
 		}
-		
+		else if(currentState == stage2State) {
+			drawStage2State(g);
+		}
 	}
 
 	void updateMenuState() {
@@ -193,7 +189,10 @@ public static BufferedImage Bees;
 	void updateVictoryState() {
 
 	}
-
+    void updateStage2State() {
+    	manager.update();
+    	manager.checkCollision();
+    }
 	void drawMenuState(Graphics g) {
 g.setColor(Color.WHITE);
 g.fillRect(0, 0, 1900, 1000);
@@ -239,7 +238,8 @@ g.setFont(font);
 		}
 	int min= secondsLeft/60;
 	int seconds = secondsLeft%60;
- PLeft = Double.toString(100.0 * numViruses / 675);
+
+	PLeft = Double.toString(100.0 * numViruses / 675);
 		String roundDown = PLeft.substring(0, 4);
 		
 		g.setFont(font2);
@@ -253,7 +253,10 @@ g.setFont(font);
 	}
 
 	void drawDeadState(Graphics g) {
-	
+	    if(songPlayed == false) {
+	    	playDeathTheme();
+	    	songPlayed = true;
+	    }
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1900, 1000);
 		g.setColor(Color.black);
@@ -273,6 +276,31 @@ g.setFont(font);
 		g.setFont(font);		
 		g.drawString("You Won! Congratulations!", 450, 500);
 	}
+void drawStage2State(Graphics g) {
+	System.out.println("Draw Stage Two Called");
+	g.setColor(Color.WHITE);
+	g.fillRect(0, 0, 1900, 1000);
+	g.setColor(Color.black);
+	manager.draw(g);
+	if (virusesDrawn == false) {
+		manager.stage2ManageViruses();
+		virusesDrawn = true;
+
+	}
+int min2= secondsLeft2/60;
+int seconds2 = secondsLeft2%60;
+String PLeft2 = Double.toString(100.0 * numViruses2 / 300);
+	String roundDown2 = PLeft2.substring(0, 4);
+	
+	g.setFont(font2);
+	g.drawString("Percent Left: " + roundDown2 + " %", 1300, 150);
+    if(seconds2 == 0) {
+    	g.drawString("Time Left: "+min2+":" + seconds2+ "0",600,150);
+    }
+	else{
+		g.drawString("Time Left: "+min2+":"+seconds2, 600, 150);
+	}
+}
 
 	public void startGame() {
 		timer.start();
@@ -282,6 +310,17 @@ gameTimer.start();
 	public void playMarioBrosTheme() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Wiin.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	public void playDeathTheme() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Death.wav"));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
