@@ -7,6 +7,7 @@ public class GameTimer implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Panel.secondsLeft -=1;
+	    Panel.secondsLeft2-=1;
 	}
 
 }

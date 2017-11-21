@@ -20,6 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Panel extends JPanel implements ActionListener, KeyListener {
+	int x;
+	int y;
+	int width;
+	int height;
 	public static BufferedImage virusImg;
 	public static BufferedImage codeImg;
 	public static BufferedImage antiVirusImg;	
@@ -27,23 +31,25 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	boolean songPlayed = false;
     boolean songPlayed2 = false;
 	boolean virusesDrawn = false;
+	
 	static int numViruses = 675;
 	static int numViruses2 = 180;
 	static int secondsLeft = 225;
-	static int secondsLeft2 = 100;
+	static int secondsLeft2 = 400 ;
 	Timer timer;
 	Timer gameTimer;
+	boolean songPlayed3 = false;
 	Manager manager;
 	Font font;
 	Font font2;
 	final int menuState = 0;
-	final int selectModeState = 1;
-	final int selectAntiVirusState = 2;
-	final int gameState = 3;
-	final int deadState = 4;
-	final int victoryState = 5;
-	final int stage2State = 6;
-	int currentState = stage2State;
+
+	final int selectAntiVirusState = 1;
+	final int gameState = 2;
+	final int deadState = 3;
+	final int victoryState = 4;
+	final int stage2State = 5;
+	int currentState = menuState;
 public static BufferedImage Bees;
 	Panel() {
 		try {
@@ -65,7 +71,7 @@ public static BufferedImage Bees;
 		font = new Font("Bangla MN", Font.PLAIN, 72);
 		font2 = new Font("Bangla MN", Font.PLAIN, 36);
 		manager = new Manager();
-
+         
 	}
 
 	public void keyTyped(KeyEvent e) {
@@ -77,33 +83,25 @@ public static BufferedImage Bees;
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == menuState) {
-				currentState = selectModeState;
+				currentState = selectAntiVirusState;
 			} else if (currentState == deadState) {
 				currentState = menuState;
 			} else if (currentState == victoryState) {
 				currentState = stage2State;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
-			if (currentState == selectModeState) {
-				currentState = selectAntiVirusState;
-			} else if (currentState == selectAntiVirusState) {
+			
+			if (currentState == selectAntiVirusState) {
 				currentState = gameState;
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_H) {
-			if (currentState == selectModeState) {
-				currentState = selectAntiVirusState;
-			} else if (currentState == selectAntiVirusState) {
-				currentState = gameState;
-			}
-		} else if (e.getKeyCode() == KeyEvent.VK_E) {
-			if (currentState == selectModeState) {
-				currentState = selectAntiVirusState;
-			}
+				manager.anti=manager.regular;
+			
+		} }
 
-		} else if (e.getKeyCode() == KeyEvent.VK_S) {
+		 else if (e.getKeyCode() == KeyEvent.VK_S) {
 
 			if (currentState == selectAntiVirusState) {
 				currentState = gameState;
+				manager.anti = manager.scatter;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			manager.anti.x += 10;
@@ -112,9 +110,15 @@ public static BufferedImage Bees;
 			manager.anti.x -= 10;
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			manager.addCode(new Code(manager.anti.x + 25, manager.anti.y, 5, 5));
+			if(manager.anti ==manager.regular) {
+				manager.addCode(new Code(manager.anti.x + 25, manager.anti.y, 5, 5));
+			}
+			if(manager.anti == manager.scatter) {
+				manager.addScatterShot(new ScatterShot(manager.anti.x+25, manager.anti.y,5,5));
+			}
 		}
-	}
+		}
+	
 
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -139,9 +143,7 @@ public static BufferedImage Bees;
 	public void paintComponent(Graphics g) {
 		if (currentState == menuState) {
 			drawMenuState(g);
-		} else if (currentState == selectModeState) {
-			drawSelectModeState(g);
-		} else if (currentState == selectAntiVirusState) {
+		}  else if (currentState == selectAntiVirusState) {
 			drawSelectAntiVirusState(g);
 		} else if (currentState == gameState) {
 			 if(PLeft.equals("0.0")) {
@@ -164,17 +166,7 @@ public static BufferedImage Bees;
 		}
 	}
 
-	void updateMenuState() {
-
-	}
-
-	void updateSelectModeState() {
-
-	}
-
-	void updateSelectAntiVirusState() {
-
-	}
+	
 
 	void updateGameState() {
 
@@ -182,13 +174,7 @@ public static BufferedImage Bees;
 		manager.checkCollision();
 	}
 
-	void updateDeadState() {
-
-	}
-
-	void updateVictoryState() {
-
-	}
+	
     void updateStage2State() {
     	manager.update();
     	manager.checkCollision();
@@ -199,20 +185,13 @@ g.fillRect(0, 0, 1900, 1000);
 		g.setColor(Color.black);
 g.setFont(font);
 		g.drawString("Virus Extermination!", 565, 450);
+	if(songPlayed3==false) {
+		playStartUpTheme();
+		songPlayed3=true;
+	}
 	}
 
-	void drawSelectModeState(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1900, 1000);
-		g.setColor(Color.black);
-		g.setFont(font);
-		g.drawString("Choose a Mode!", 565, 250);
-		g.setFont(font2);
-		g.drawString("Press E for Easy Mode", 125, 450);
-		g.drawString("Press R for Regular Mode", 725, 450);
-		g.drawString("Press H for Hard Mode", 1325, 450);
-        
-	}
+	
 
 	void drawSelectAntiVirusState(Graphics g) {
 		g.setColor(Color.WHITE);
@@ -289,7 +268,7 @@ void drawStage2State(Graphics g) {
 	}
 int min2= secondsLeft2/60;
 int seconds2 = secondsLeft2%60;
-String PLeft2 = Double.toString(100.0 * numViruses2 / 300);
+String PLeft2 = Double.toString(100.0 * numViruses2 / 1200);
 	String roundDown2 = PLeft2.substring(0, 4);
 	
 	g.setFont(font2);
@@ -310,6 +289,17 @@ gameTimer.start();
 	public void playMarioBrosTheme() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Wiin.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	public void playStartUpTheme() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Microsoft-Windows-XP-Startup-Sound.wav"));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
