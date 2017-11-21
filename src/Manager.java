@@ -150,6 +150,11 @@ void addScatterShot(ScatterShot s) {
 		for (Code c : codes) {
 			c.draw(g);
 		}
+		for(ScatterShot s: scatterShots) {
+			s.draw(g);
+		}
+		regular.draw(g);
+		scatter.draw(g);
 		anti.draw(g);
 	}
 
@@ -161,6 +166,9 @@ void addScatterShot(ScatterShot s) {
 		}
 		for (Code c : codes) {
 			c.update();
+		}
+		for(ScatterShot s: scatterShots) {
+			s.update();
 		}
 		destroyObjects();
 	}
