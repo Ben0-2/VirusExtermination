@@ -26,16 +26,16 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	int height;
 	public static BufferedImage virusImg;
 	public static BufferedImage codeImg;
-	public static BufferedImage antiVirusImg;	
-	String  PLeft = Double.toString(100.0 * 675 / 675);
+	public static BufferedImage antiVirusImg;
+	String PLeft = Double.toString(100.0 * 675 / 675);
 	boolean songPlayed = false;
-    boolean songPlayed2 = false;
+	boolean songPlayed2 = false;
 	boolean virusesDrawn = false;
-	
+
 	static int numViruses = 675;
-	static int numViruses2 = 180;
+	static int numViruses2 = 600;
 	static int secondsLeft = 225;
-	static int secondsLeft2 = 400 ;
+	static int secondsLeft2 = 200;
 	Timer timer;
 	Timer gameTimer;
 	boolean songPlayed3 = false;
@@ -50,28 +50,29 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	final int victoryState = 4;
 	final int stage2State = 5;
 	int currentState = menuState;
-public static BufferedImage Bees;
+	public static BufferedImage Bees;
+
 	Panel() {
 		try {
 			virusImg = ImageIO.read(this.getClass().getResourceAsStream("Bees.jpg"));
-			codeImg=ImageIO.read(this.getClass().getResourceAsStream("Code.jpg"));
-	       antiVirusImg=ImageIO.read(this.getClass().getResourceAsStream("GalagaShip.jpg"));
-			if(codeImg!=null) {
-	        	System.out.println("Code Image loaded");
-	        }else {
-	        	System.out.println("Code Image not loaded");
-	        }
+			codeImg = ImageIO.read(this.getClass().getResourceAsStream("Code.jpg"));
+			antiVirusImg = ImageIO.read(this.getClass().getResourceAsStream("GalagaShip.jpg"));
+			if (codeImg != null) {
+				System.out.println("Code Image loaded");
+			} else {
+				System.out.println("Code Image not loaded");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		
+
 		}
 		timer = new Timer(1000 / 60, this);
-		 gameTimer = new Timer(1000, new GameTimer());
+		gameTimer = new Timer(1000, new GameTimer());
 		font = new Font("Bangla MN", Font.PLAIN, 72);
 		font2 = new Font("Bangla MN", Font.PLAIN, 36);
 		manager = new Manager();
-         
+
 	}
 
 	public void keyTyped(KeyEvent e) {
@@ -90,17 +91,18 @@ public static BufferedImage Bees;
 				currentState = stage2State;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
-			
-			if (currentState == selectAntiVirusState) {
-				currentState = gameState;
-				manager.anti=manager.regular;
-			
-		} }
-
-		 else if (e.getKeyCode() == KeyEvent.VK_S) {
 
 			if (currentState == selectAntiVirusState) {
 				currentState = gameState;
+				manager.anti = manager.regular;
+
+			}
+		}
+
+		else if (e.getKeyCode() == KeyEvent.VK_S) {
+
+			if (currentState == selectAntiVirusState) {
+				currentState = stage2State;
 				manager.anti = manager.scatter;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -110,15 +112,14 @@ public static BufferedImage Bees;
 			manager.anti.x -= 10;
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			if(manager.anti ==manager.regular) {
-				manager.addCode(new Code(manager.anti.x + 25, manager.anti.y, 5, 5));
+			if (manager.anti == manager.regular) {
+				manager.addCode(new Code(manager.regular.x + 25, manager.regular.y, 5, 5));
 			}
-			if(manager.anti == manager.scatter) {
-				manager.addScatterShot(new ScatterShot(manager.anti.x+25, manager.anti.y,5,5));
+			if (manager.anti == manager.scatter) {
+				manager.addScatterShot(new ScatterShot(manager.scatter.x + 25, manager.scatter.y, 5, 5));
 			}
 		}
-		}
-	
+	}
 
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -127,71 +128,64 @@ public static BufferedImage Bees;
 
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 		if (currentState == gameState) {
 			updateGameState();
 		}
-	
-		else if(currentState == stage2State) {
+
+		else if (currentState == stage2State) {
 			updateStage2State();
 		}
-		
+
 		repaint();
 	}
 
-	
 	public void paintComponent(Graphics g) {
 		if (currentState == menuState) {
 			drawMenuState(g);
-		}  else if (currentState == selectAntiVirusState) {
+		} else if (currentState == selectAntiVirusState) {
 			drawSelectAntiVirusState(g);
 		} else if (currentState == gameState) {
-			 if(PLeft.equals("0.0")) {
+			if (PLeft.equals("0.0")) {
 				currentState = victoryState;
 			}
-			 
-			 else if(secondsLeft == 0) {
-				 currentState = deadState;
-			 }
-			 drawGameState(g);
-		} 
-		else if(currentState == victoryState) {
+
+			else if (secondsLeft == 0) {
+				currentState = deadState;
+			}
+			drawGameState(g);
+		} else if (currentState == victoryState) {
 			drawVictoryState(g);
-		}
-		else if (currentState == deadState) {
+		} else if (currentState == deadState) {
 			drawDeadState(g);
-		}
-		else if(currentState == stage2State) {
+		} else if (currentState == stage2State) {
 			drawStage2State(g);
 		}
 	}
 
-	
-
 	void updateGameState() {
 
 		manager.update();
+
 		manager.checkCollision();
 	}
 
-	
-    void updateStage2State() {
-    	manager.update();
-    	manager.checkCollision();
-    }
-	void drawMenuState(Graphics g) {
-g.setColor(Color.WHITE);
-g.fillRect(0, 0, 1900, 1000);
-		g.setColor(Color.black);
-g.setFont(font);
-		g.drawString("Virus Extermination!", 565, 450);
-	if(songPlayed3==false) {
-		playStartUpTheme();
-		songPlayed3=true;
-	}
+	void updateStage2State() {
+		manager.updateStage2();
+		manager.checkCollision();
 	}
 
-	
+	void drawMenuState(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 1900, 1000);
+		g.setColor(Color.black);
+		g.setFont(font);
+		g.drawString("Virus Extermination!", 565, 450);
+		if (songPlayed3 == false) {
+			playStartUpTheme();
+			songPlayed3 = true;
+		}
+	}
 
 	void drawSelectAntiVirusState(Graphics g) {
 		g.setColor(Color.WHITE);
@@ -215,27 +209,26 @@ g.setFont(font);
 			virusesDrawn = true;
 
 		}
-	int min= secondsLeft/60;
-	int seconds = secondsLeft%60;
+		int min = secondsLeft / 60;
+		int seconds = secondsLeft % 60;
 
-	PLeft = Double.toString(100.0 * numViruses / 675);
+		PLeft = Double.toString(100.0 * numViruses / 675);
 		String roundDown = PLeft.substring(0, 4);
-		
+
 		g.setFont(font2);
 		g.drawString("Percent Left: " + roundDown + " %", 1300, 150);
-        if(seconds == 0) {
-        	g.drawString("Time Left: "+min+":" + seconds+ "0",600,160);
-        }
-		else{
-			g.drawString("Time Left: "+min+":"+seconds, 600, 150);
+		if (seconds == 0) {
+			g.drawString("Time Left: " + min + ":" + seconds + "0", 600, 160);
+		} else {
+			g.drawString("Time Left: " + min + ":" + seconds, 600, 150);
 		}
 	}
 
 	void drawDeadState(Graphics g) {
-	    if(songPlayed == false) {
-	    	playDeathTheme();
-	    	songPlayed = true;
-	    }
+		if (songPlayed == false) {
+			playDeathTheme();
+			songPlayed = true;
+		}
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1900, 1000);
 		g.setColor(Color.black);
@@ -244,77 +237,85 @@ g.setFont(font);
 	}
 
 	void drawVictoryState(Graphics g) {
-		if(songPlayed==false) {
+		if (songPlayed == false) {
 			playMarioBrosTheme();
-			songPlayed=true;
+			songPlayed = true;
 		}
-		
+
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1900, 1000);
 		g.setColor(Color.black);
-		g.setFont(font);		
+		g.setFont(font);
 		g.drawString("You Won! Congratulations!", 450, 500);
 	}
-void drawStage2State(Graphics g) {
-	System.out.println("Draw Stage Two Called");
-	g.setColor(Color.WHITE);
-	g.fillRect(0, 0, 1900, 1000);
-	g.setColor(Color.black);
-	manager.draw(g);
-	if (virusesDrawn == false) {
-		manager.stage2ManageViruses();
-		virusesDrawn = true;
 
-	}
-int min2= secondsLeft2/60;
-int seconds2 = secondsLeft2%60;
-String PLeft2 = Double.toString(100.0 * numViruses2 / 1200);
-	String roundDown2 = PLeft2.substring(0, 4);
+	void drawStage2State(Graphics g) {
+		System.out.println("Draw Stage Two Called");
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 1900, 1000);
+		g.setColor(Color.black);
+		manager.draw(g);
+		if (virusesDrawn == false) {
+			manager.stage2ManageViruses();
+			virusesDrawn = true;
+
+		}
+		int min2 = secondsLeft2 / 60;
+		int seconds2 = secondsLeft2 % 60;
+		String PLeft2 = Double.toString(100.0 * numViruses2 / 600+100);
+
 	
-	g.setFont(font2);
-	g.drawString("Percent Left: " + roundDown2 + " %", 1300, 150);
-    if(seconds2 == 0) {
-    	g.drawString("Time Left: "+min2+":" + seconds2+ "0",600,150);
-    }
-	else{
-		g.drawString("Time Left: "+min2+":"+seconds2, 600, 150);
+
+		g.setFont(font2);
+		g.drawString("Percent Left: " + PLeft2 + " %", 1300, 150);
+		if (seconds2 == 0) {
+			g.drawString("Time Left: " + min2 + ":" + seconds2 + "0", 600, 150);
+		} else if(seconds2<10&&seconds2>0) {
+			g.drawString("Time Left:" + min2 +":"+"0"+seconds2, 600, 150);
+		}
+		else {
+			g.drawString("Time Left: " + min2 + ":" + seconds2, 600, 150);
+		}
 	}
-}
 
 	public void startGame() {
 		timer.start();
-gameTimer.start();
-	
+		gameTimer.start();
+
 	}
+
 	public void playMarioBrosTheme() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Wiin.wav"));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	public void playStartUpTheme() {
 		try {
-			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Microsoft-Windows-XP-Startup-Sound.wav"));
+			AudioInputStream audioInputStream = AudioSystem
+					.getAudioInputStream(new File("Microsoft-Windows-XP-Startup-Sound.wav"));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	public void playDeathTheme() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Death.wav"));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
