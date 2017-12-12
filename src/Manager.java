@@ -154,8 +154,12 @@ void addScatterShot(ScatterShot s) {
 		for(BossVirus b: bossViruses) {
 			b.draw(g);
 		}
-		regular.draw(g);
-		scatter.draw(g);
+		if(anti==regular) {
+			regular.draw(g);
+		}
+		else if(anti==scatter) {
+			scatter.draw(g);
+		}
 		anti.draw(g);
 	}
 

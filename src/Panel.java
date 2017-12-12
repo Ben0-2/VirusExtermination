@@ -32,8 +32,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	String PLeft = Double.toString(100.0 * 675 / 675);
 	boolean songPlayed = false;
 	boolean songPlayed2 = false;
+	
 	boolean virusesDrawn = false;
-
+Random random0= new Random();
 	static int numViruses = 675;
 	static int numViruses2 = 600;
 	static int secondsLeft = 225;
@@ -45,15 +46,18 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	Manager manager;
 	Font font;
 	Font font2;
+	Font font3;
 	final int menuState = 0;
-
+	
 	final int selectAntiVirusState = 1;
 	final int gameState = 2;
 	final int deadState = 3;
 	final int victoryState = 4;
 	final int BossState = 5;
 	final int BossVictoryState = 6;
+	final int endState = 7;
 	int currentState = menuState;
+	int i=1;
 	public static BufferedImage Bees;
 
 	Panel() {
@@ -76,6 +80,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		gameTimer = new Timer(1000, new GameTimer());
 		font = new Font("Bangla MN", Font.PLAIN, 72);
 		font2 = new Font("Bangla MN", Font.PLAIN, 36);
+		font3 = new Font("Bangla MN", Font.PLAIN, 15);
 		manager = new Manager();
 
 	}
@@ -94,6 +99,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 				currentState = menuState;
 			} else if (currentState == victoryState) {
 				currentState = BossState;
+			} else if(currentState == BossVictoryState) {
+				currentState = endState;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
 
@@ -139,7 +146,35 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		}
 
 		else if (currentState == BossState) {
+			
 			updateBossState();
+		i+=1;
+		if(i==60) {
+			
+			
+			manager.addVirus(new Virus(random0.nextInt(100),0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+100,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+200,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+300,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+400,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+500,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+600,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+700,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+800,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+900,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+1000,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+1100,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+1200,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+1300,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+1400,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+1500,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+1600,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+1700,0,12,12));
+			manager.addVirus(new Virus(random0.nextInt(100)+1800,0,12,12));
+			
+			
+		i = 1;
+		}
 			
 		}
 	
@@ -166,9 +201,18 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			drawDeadState(g);
 		} else if (currentState == BossState) {
 			drawBossState(g);
+			if(manager.anti.isAlive == false) {
+				currentState = deadState;
+			}
+			else if(secondsLeft2==0){
+				currentState= BossVictoryState;
+			}
 		}
 		else if(currentState == BossVictoryState) {
 			drawBossVictoryState(g);
+		}
+		else if(currentState == endState) {
+			drawEndState(g);
 		}
 	}
 
@@ -183,7 +227,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		manager.updateBoss();
 		manager.checkCollision();
 	 int rand = new Random().nextInt(100);
-		manager.addVirus(new Virus(rand+800,0,7,7));
+		
 	}
 
 	void drawMenuState(Graphics g) {
@@ -236,9 +280,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawDeadState(Graphics g) {
-		if (songPlayed == false) {
+		if (songPlayed3 == false) {
 			playDeathTheme();
-			songPlayed = true;
+			songPlayed3 = true;
 		}
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1900, 1000);
@@ -257,7 +301,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, 1900, 1000);
 		g.setColor(Color.black);
 		g.setFont(font);
-		g.drawString("You Won! Congratulations!", 450, 500);
+		g.drawString("You Won! Congratulations! On To The Boss Fight!", 450, 500);
 	}
 
 	void drawBossState(Graphics g) {
@@ -290,12 +334,24 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 void drawBossVictoryState(Graphics g) {
 	if(songPlayed2==false) {
 		playMarioBrosTheme();
+		songPlayed2= true;
+	}
+	g.setColor(Color.WHITE);
+	g.fillRect(0, 0, 1900, 1000);
+	g.setColor(Color.black);
+	g.setFont(font3);
+	g.drawString("You Won! Congratulations! \n You Beat the Virus that has been \n plagueing your computer for a long time!", 450, 500);
+}
+void drawEndState(Graphics g) {
+	if(songPlayed4 == false) {
+		playCompleteFinishTheme();
+	songPlayed4 = true;
 	}
 	g.setColor(Color.WHITE);
 	g.fillRect(0, 0, 1900, 1000);
 	g.setColor(Color.black);
 	g.setFont(font);
-	g.drawString("You Won! Congratulations!\nYou Beat the Virus that has been \n plagueing your computer for a long time!", 450, 500);
+	g.drawString("Thank You For Playing!", 450, 500);
 }
 	public void startGame() {
 		timer.start();
@@ -331,6 +387,17 @@ void drawBossVictoryState(Graphics g) {
 	public void playDeathTheme() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("Death.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			clip.start();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	public void playCompleteFinishTheme() {
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("GameComplete.wav"));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
 			clip.start();

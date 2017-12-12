@@ -22,6 +22,6 @@ void update() {
 }
 void bossStateUpdate() {
 	update();
-	y-=speed;
+	y+=speed;
 }
 }
