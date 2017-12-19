@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -15,8 +14,6 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -32,9 +29,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	String PLeft = Double.toString(100.0 * 675 / 675);
 	boolean songPlayed = false;
 	boolean songPlayed2 = false;
-	
+
 	boolean virusesDrawn = false;
-Random random0= new Random();
+	Random random0 = new Random();
 	static int numViruses = 675;
 	static int numViruses2 = 600;
 	static int secondsLeft = 225;
@@ -42,13 +39,13 @@ Random random0= new Random();
 	Timer timer;
 	Timer gameTimer;
 	boolean songPlayed3 = false;
-	boolean songPlayed4=false;
+	boolean songPlayed4 = false;
 	Manager manager;
 	Font font;
 	Font font2;
 	Font font3;
 	final int menuState = 0;
-	
+
 	final int selectAntiVirusState = 1;
 	final int gameState = 2;
 	final int deadState = 3;
@@ -56,8 +53,10 @@ Random random0= new Random();
 	final int BossState = 5;
 	final int BossVictoryState = 6;
 	final int endState = 7;
-	int currentState = menuState;
-	int i=1;
+	int currentState = endState;
+	int virusSpawnerTimer = 1;
+	int messageTimer = 1;
+	Graphics g;
 	public static BufferedImage Bees;
 
 	Panel() {
@@ -99,7 +98,7 @@ Random random0= new Random();
 				currentState = menuState;
 			} else if (currentState == victoryState) {
 				currentState = BossState;
-			} else if(currentState == BossVictoryState) {
+			} else if (currentState == BossVictoryState) {
 				currentState = endState;
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
@@ -146,38 +145,39 @@ Random random0= new Random();
 		}
 
 		else if (currentState == BossState) {
-			
+
 			updateBossState();
-		i+=1;
-		if(i==60) {
-			
-			
-			manager.addVirus(new Virus(random0.nextInt(100),0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+100,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+200,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+300,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+400,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+500,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+600,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+700,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+800,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+900,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+1000,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+1100,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+1200,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+1300,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+1400,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+1500,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+1600,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+1700,0,12,12));
-			manager.addVirus(new Virus(random0.nextInt(100)+1800,0,12,12));
-			
-			
-		i = 1;
+
+			if (messageTimer > 1080) {
+				if (virusSpawnerTimer == 60) {
+
+					manager.addVirus(new Virus(random0.nextInt(100), 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 100, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 200, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 300, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 400, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 500, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 600, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 700, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 800, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 900, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 1000, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 1100, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 1200, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 1300, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 1400, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 1500, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 1600, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 1700, 0, 12, 12));
+					manager.addVirus(new Virus(random0.nextInt(100) + 1800, 0, 12, 12));
+
+					virusSpawnerTimer = 1;
+				}
+				virusSpawnerTimer += 1;
+			}
+			messageTimer += 1;
 		}
-			
-		}
-	
+
 		repaint();
 	}
 
@@ -201,17 +201,14 @@ Random random0= new Random();
 			drawDeadState(g);
 		} else if (currentState == BossState) {
 			drawBossState(g);
-			if(manager.anti.isAlive == false) {
+			if (manager.anti.isAlive == false) {
 				currentState = deadState;
+			} else if (secondsLeft2 == 0) {
+				currentState = BossVictoryState;
 			}
-			else if(secondsLeft2==0){
-				currentState= BossVictoryState;
-			}
-		}
-		else if(currentState == BossVictoryState) {
+		} else if (currentState == BossVictoryState) {
 			drawBossVictoryState(g);
-		}
-		else if(currentState == endState) {
+		} else if (currentState == endState) {
 			drawEndState(g);
 		}
 	}
@@ -226,8 +223,8 @@ Random random0= new Random();
 	void updateBossState() {
 		manager.updateBoss();
 		manager.checkCollision();
-	 int rand = new Random().nextInt(100);
-		
+		int rand = new Random().nextInt(100);
+
 	}
 
 	void drawMenuState(Graphics g) {
@@ -305,7 +302,8 @@ Random random0= new Random();
 	}
 
 	void drawBossState(Graphics g) {
-		System.out.println("Draw Stage Two Called");
+		g.setFont(font2);
+
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 1900, 1000);
 		g.setColor(Color.black);
@@ -317,42 +315,55 @@ Random random0= new Random();
 		}
 		int min2 = secondsLeft2 / 60;
 		int seconds2 = secondsLeft2 % 60;
-		
-	
 
 		g.setFont(font2);
-		
+
 		if (seconds2 == 0) {
 			g.drawString("Time Left: " + min2 + ":" + seconds2 + "0", 600, 150);
-		} else if(seconds2<10&&seconds2>0) {
-			g.drawString("Time Left:" + min2 +":"+"0"+seconds2, 600, 150);
-		}
-		else {
+		} else if (seconds2 < 10 && seconds2 > 0) {
+			g.drawString("Time Left:" + min2 + ":" + "0" + seconds2, 600, 150);
+		} else {
 			g.drawString("Time Left: " + min2 + ":" + seconds2, 600, 150);
 		}
+		if (messageTimer >= 180 && messageTimer < 360) {
+			drawStringScroll(g, "I am the boss virus");
+		} else if (messageTimer >= 360 && messageTimer < 540) {
+			drawStringScroll(g, "I see you have made it past my first wave, impressive");
+		} else if (messageTimer >= 540 && messageTimer < 720) {
+			drawStringScroll(g, "But, you cannot defeat me!");
+		} else if (messageTimer >= 720 && messageTimer < 900) {
+			drawStringScroll(g, "If you can live through this death for 3 minutes, I will leave");
+		} else if (messageTimer >= 900 && messageTimer < 1080) {
+			drawStringScroll(g, "PREPARE TO DIE");
+		}
 	}
-void drawBossVictoryState(Graphics g) {
-	if(songPlayed2==false) {
-		playMarioBrosTheme();
-		songPlayed2= true;
+
+	void drawBossVictoryState(Graphics g) {
+		if (songPlayed2 == false) {
+			playMarioBrosTheme();
+			songPlayed2 = true;
+		}
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 1900, 1000);
+		g.setColor(Color.black);
+		g.setFont(font3);
+		g.drawString(
+				"You Won! Congratulations! \n You Beat the Virus that has been \n plagueing your computer for a long time!",
+				450, 500);
 	}
-	g.setColor(Color.WHITE);
-	g.fillRect(0, 0, 1900, 1000);
-	g.setColor(Color.black);
-	g.setFont(font3);
-	g.drawString("You Won! Congratulations! \n You Beat the Virus that has been \n plagueing your computer for a long time!", 450, 500);
-}
-void drawEndState(Graphics g) {
-	if(songPlayed4 == false) {
-		playCompleteFinishTheme();
-	songPlayed4 = true;
+
+	void drawEndState(Graphics g) {
+		if (songPlayed4 == false) {
+			playCompleteFinishTheme();
+			songPlayed4 = true;
+		}
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, 1900, 1000);
+		g.setColor(Color.black);
+		g.setFont(font);
+		g.drawString("Thank You For Playing!", 450, 500);
 	}
-	g.setColor(Color.WHITE);
-	g.fillRect(0, 0, 1900, 1000);
-	g.setColor(Color.black);
-	g.setFont(font);
-	g.drawString("Thank You For Playing!", 450, 500);
-}
+
 	public void startGame() {
 		timer.start();
 		gameTimer.start();
@@ -395,6 +406,7 @@ void drawEndState(Graphics g) {
 			ex.printStackTrace();
 		}
 	}
+
 	public void playCompleteFinishTheme() {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("GameComplete.wav"));
@@ -405,5 +417,9 @@ void drawEndState(Graphics g) {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public void drawStringScroll(Graphics g, String s) {
+		g.drawString(s, 250, 250);
 	}
 }

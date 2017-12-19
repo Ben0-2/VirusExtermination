@@ -1,7 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Manager {
 	int x;
@@ -24,16 +23,14 @@ public class Manager {
 	public Manager() {
 		viruses = new ArrayList<Virus>();
 		codes = new ArrayList<Code>();
-		anti = new AntiVirus(x,y,width,height);
-	   bossViruses=new ArrayList<BossVirus>();
+		anti = new AntiVirus(875, 850, 50, 50);
+		bossViruses = new ArrayList<BossVirus>();
 		scatterShots = new ArrayList<ScatterShot>();
-	   
-		regular = new AntiVirus(875, 850, 50, 50);
-	   
-	   
-	    	scatter = new AntiVirus(875, 850, 50, 50);
+
+		regular = new AntiVirus(x, y, width, height);
+
+		scatter = new AntiVirus(x, y, width, height);
 	}
-	   
 
 	void addVirus(Virus o) {
 		viruses.add(o);
@@ -42,51 +39,56 @@ public class Manager {
 	void addCode(Code c) {
 		codes.add(c);
 	}
+
 	void addBossVirus(BossVirus b) {
 		bossViruses.add(b);
 	}
-void addScatterShot(ScatterShot s) {
-	scatterShots.add(s);
-}
+
+	void addScatterShot(ScatterShot s) {
+		scatterShots.add(s);
+	}
+
 	void addAntiVirus(AntiVirus a) {
 		anti = a;
 
 	}
-    
+
 	void checkCollision() {
 		for (Code c : codes) {
 			checkCollision(c);
 		}
-		for(BossVirus b: bossViruses) {
+		for (BossVirus b : bossViruses) {
 			checkCollision3(b);
+
 		}
-        for(ScatterShot s: scatterShots) {
-        	checkCollision2(s);
-        }
+		for (ScatterShot s : scatterShots) {
+			checkCollision2(s);
+		}
 	}
 
 	void checkCollision2(ScatterShot s) {
-		for(int i=0; i<viruses.size(); i++) {
-			Virus v=viruses.get(i);
-			
-			if(v.collisionBox.intersects(s.collisionBox)) {
-				Panel.numViruses-=1;
-				Panel.numViruses2-=1;
-				v.isAlive=false;
-				
+		for (int i = 0; i < viruses.size(); i++) {
+			Virus v = viruses.get(i);
+
+			if (v.collisionBox.intersects(s.collisionBox)) {
+				Panel.numViruses -= 1;
+				Panel.numViruses2 -= 1;
+				v.isAlive = false;
+
 			}
-		
-			
 
 		}
 	}
+
 	void checkCollision3(BossVirus b) {
-		for(int i=0; i<scatterShots.size(); i++) {
-			ScatterShot s= scatterShots.get(i);
-			}
-		for(int j=0; j<codes.size();j++) {
-			Code c=codes.get(j);
-		}}
+		for (int i = 0; i < scatterShots.size(); i++) {
+			ScatterShot s = scatterShots.get(i);
+		}
+		for (int j = 0; j < codes.size(); j++) {
+			Code c = codes.get(j);
+		}
+	}
+
 	void checkCollision(Code c) {
 
 		for (int i = 0; i < viruses.size(); i++) {
@@ -99,12 +101,12 @@ void addScatterShot(ScatterShot s) {
 				v.isAlive = false;
 				c.isAlive = false;
 			}
-            if(v.collisionBox.intersects(anti.collisionBox)) {
-            	Panel.numViruses-=1;
-            	Panel.numViruses2-=1;
-            	v.isAlive=false;
-            	anti.isAlive = false;
-            }
+			if (v.collisionBox.intersects(anti.collisionBox)) {
+				Panel.numViruses -= 1;
+				Panel.numViruses2 -= 1;
+				v.isAlive = false;
+				anti.isAlive = false;
+			}
 		}
 	}
 
@@ -130,10 +132,9 @@ void addScatterShot(ScatterShot s) {
 	void BossManageViruses() {
 		Panel.numViruses2 = 0;
 		int m = 1;
-		
-			addBossVirus(new BossVirus(800,300,250,250));
-		}
-	
+
+		addBossVirus(new BossVirus(800, 300, 250, 250));
+	}
 
 	void reset() {
 		viruses.clear();
@@ -148,18 +149,13 @@ void addScatterShot(ScatterShot s) {
 		for (Code c : codes) {
 			c.draw(g);
 		}
-		for(ScatterShot s: scatterShots) {
+		for (ScatterShot s : scatterShots) {
 			s.draw(g);
 		}
-		for(BossVirus b: bossViruses) {
+		for (BossVirus b : bossViruses) {
 			b.draw(g);
 		}
-		if(anti==regular) {
-			regular.draw(g);
-		}
-		else if(anti==scatter) {
-			scatter.draw(g);
-		}
+
 		anti.draw(g);
 	}
 
@@ -172,31 +168,31 @@ void addScatterShot(ScatterShot s) {
 		for (Code c : codes) {
 			c.update();
 		}
-		for(ScatterShot s: scatterShots) {
+		for (ScatterShot s : scatterShots) {
 			s.update();
 		}
-		
+
 		destroyObjects();
 	}
-void updateBoss(){
-	for(Virus v: viruses) {
-		v.bossStateUpdate();
+
+	void updateBoss() {
+		for (Virus v : viruses) {
+			v.bossStateUpdate();
+		}
+		for (Code c : codes) {
+			c.update();
+		}
+		for (ScatterShot s : scatterShots) {
+			s.speed = 18;
+			s.update();
+		}
+
+		for (BossVirus b : bossViruses) {
+			b.update();
+		}
+
+		destroyObjects();
 	}
-	for (Code c : codes) {
-		c.update();
-	}
-	for(ScatterShot s: scatterShots) {
-		s.speed=18;
-		s.update();
-	}
-	
-	for(BossVirus b: bossViruses) {
-		b.update();
-	}
-	
-	destroyObjects();
-}
-	
 
 	void destroyObjects() {
 		for (int i = 0; i < viruses.size(); i++) {
