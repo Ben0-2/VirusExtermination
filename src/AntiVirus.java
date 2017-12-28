@@ -8,6 +8,7 @@ public AntiVirus(int x, int y, int width, int height) {
 	super(x, y, width, height);
 }
 void draw(Graphics g) {
+	super.draw(g);
 	g.drawImage(Panel.antiVirusImg, x, y, width, height, null);
 
 }

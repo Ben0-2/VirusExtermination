@@ -3,10 +3,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class Manager {
-	int x;
-	int y;
-	int width;
-	int height;
+	
 	AntiVirus anti;
 	AntiVirus regular;
 	ArrayList<ScatterShot> scatterShots;
@@ -27,9 +24,9 @@ public class Manager {
 		bossViruses = new ArrayList<BossVirus>();
 		scatterShots = new ArrayList<ScatterShot>();
 
-		regular = new AntiVirus(x, y, width, height);
+		regular = new AntiVirus(875, 850, 50, 50);
 
-		scatter = new AntiVirus(x, y, width, height);
+		scatter = new AntiVirus(875, 850, 50, 50);
 	}
 
 	void addVirus(Virus o) {
@@ -55,10 +52,11 @@ public class Manager {
 
 	void checkCollision() {
 		for (Code c : codes) {
-			checkCollision(c);
+			checkCollision1();
 		}
 		for (BossVirus b : bossViruses) {
 			checkCollision3(b);
+			
 
 		}
 		for (ScatterShot s : scatterShots) {
@@ -72,7 +70,7 @@ public class Manager {
 
 			if (v.collisionBox.intersects(s.collisionBox)) {
 				Panel.numViruses -= 1;
-				Panel.numViruses2 -= 1;
+				
 				v.isAlive = false;
 
 			}
@@ -87,28 +85,32 @@ public class Manager {
 		for (int j = 0; j < codes.size(); j++) {
 			Code c = codes.get(j);
 		}
+		checkCollision1();
 	}
 
-	void checkCollision(Code c) {
+	void checkCollision1() {
 
 		for (int i = 0; i < viruses.size(); i++) {
-
 			Virus v = viruses.get(i);
+			for(int j=0; j<codes.size(); j++) {
+			
+			Code c =  codes.get(j);
 
 			if (v.collisionBox.intersects(c.collisionBox)) {
 				Panel.numViruses -= 1;
-				Panel.numViruses2 -= 1;
+				
 				v.isAlive = false;
 				c.isAlive = false;
 			}
+			}
 			if (v.collisionBox.intersects(anti.collisionBox)) {
-				Panel.numViruses -= 1;
-				Panel.numViruses2 -= 1;
+				
 				v.isAlive = false;
 				anti.isAlive = false;
 			}
 		}
 	}
+	
 
 	void manageViruses() {
 		Panel.numViruses = 0;

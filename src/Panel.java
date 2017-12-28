@@ -26,6 +26,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage codeImg;
 	public static BufferedImage antiVirusImg;
 	public static BufferedImage bossVirusImg;
+	public static BufferedImage backgroundImg;
 	String PLeft = Double.toString(100.0 * 675 / 675);
 	boolean songPlayed = false;
 	boolean songPlayed2 = false;
@@ -35,7 +36,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	static int numViruses = 675;
 	static int numViruses2 = 600;
 	static int secondsLeft = 225;
-	static int secondsLeft2 = 150;
+	static int secondsLeft2 = 198;
 	Timer timer;
 	Timer gameTimer;
 	boolean songPlayed3 = false;
@@ -53,18 +54,19 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	final int BossState = 5;
 	final int BossVictoryState = 6;
 	final int endState = 7;
-	int currentState = endState;
+	int currentState = menuState;
 	int virusSpawnerTimer = 1;
-	int messageTimer = 1;
+	int messageTimer = 1080;
 	Graphics g;
 	public static BufferedImage Bees;
 
 	Panel() {
 		try {
-			virusImg = ImageIO.read(this.getClass().getResourceAsStream("Bees.jpg"));
-			codeImg = ImageIO.read(this.getClass().getResourceAsStream("Code.jpg"));
-			antiVirusImg = ImageIO.read(this.getClass().getResourceAsStream("GalagaShip.jpg"));
-			bossVirusImg = ImageIO.read(this.getClass().getResourceAsStream("BossBrain.jpg"));
+			virusImg = ImageIO.read(this.getClass().getResourceAsStream("Bees.png"));
+			codeImg = ImageIO.read(this.getClass().getResourceAsStream("Code.png"));
+			antiVirusImg = ImageIO.read(this.getClass().getResourceAsStream("GalagaShip.png"));
+			bossVirusImg = ImageIO.read(this.getClass().getResourceAsStream("BossBrain.png"));
+			backgroundImg = ImageIO.read(this.getClass().getResourceAsStream("BackgroundForGame.jpg"));
 			if (codeImg != null) {
 				System.out.println("Code Image loaded");
 			} else {
@@ -115,6 +117,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			if (currentState == selectAntiVirusState) {
 				currentState = BossState;
 				manager.anti = manager.scatter;
+
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			manager.anti.x += 10;
@@ -228,9 +231,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawMenuState(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1900, 1000);
-		g.setColor(Color.black);
+		manager.reset();
+		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
+		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("Virus Extermination!", 565, 450);
 		if (songPlayed3 == false) {
@@ -240,9 +243,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawSelectAntiVirusState(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1900, 1000);
-		g.setColor(Color.black);
+		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
+		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("Choose an Anti-virus Software!", 300, 250);
 		g.setFont(font2);
@@ -252,9 +254,13 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1900, 1000);
-		g.setColor(Color.black);
+		if (manager.anti == manager.regular) {
+			manager.regular.draw(g);
+		} else if (manager.anti == manager.scatter) {
+			manager.scatter.draw(g);
+		}
+		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
+		g.setColor(Color.white);
 		manager.draw(g);
 		if (virusesDrawn == false) {
 			manager.manageViruses();
@@ -281,11 +287,11 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			playDeathTheme();
 			songPlayed3 = true;
 		}
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1900, 1000);
-		g.setColor(Color.black);
+		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
+		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("Game Over!", 565, 500);
+		
 	}
 
 	void drawVictoryState(Graphics g) {
@@ -294,19 +300,18 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			songPlayed = true;
 		}
 
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1900, 1000);
-		g.setColor(Color.black);
+		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
+		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("You Won! Congratulations! On To The Boss Fight!", 450, 500);
 	}
 
 	void drawBossState(Graphics g) {
+		manager.regular.draw(g);
 		g.setFont(font2);
 
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1900, 1000);
-		g.setColor(Color.black);
+		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
+		g.setColor(Color.white);
 		manager.draw(g);
 		if (virusesDrawn == false) {
 			manager.BossManageViruses();
@@ -343,9 +348,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			playMarioBrosTheme();
 			songPlayed2 = true;
 		}
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1900, 1000);
-		g.setColor(Color.black);
+		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
+		g.setColor(Color.white);
 		g.setFont(font3);
 		g.drawString(
 				"You Won! Congratulations! \n You Beat the Virus that has been \n plagueing your computer for a long time!",
@@ -357,9 +361,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			playCompleteFinishTheme();
 			songPlayed4 = true;
 		}
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 1900, 1000);
-		g.setColor(Color.black);
+		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
+		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("Thank You For Playing!", 450, 500);
 	}
