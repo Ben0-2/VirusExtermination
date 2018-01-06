@@ -27,16 +27,16 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage antiVirusImg;
 	public static BufferedImage bossVirusImg;
 	public static BufferedImage backgroundImg;
-	String PLeft = Double.toString(100.0 * 675 / 675);
+	String PLeft = Double.toString(100.0 *( numViruses / 675));
 	boolean songPlayed = false;
 	boolean songPlayed2 = false;
 
 	boolean virusesDrawn = false;
 	Random random0 = new Random();
-	static int numViruses = 675;
+	static int numViruses = 775;
 	static int numViruses2 = 600;
 	static int secondsLeft = 225;
-	static int secondsLeft2 = 198;
+	static int secondsLeft2 = 201;
 	Timer timer;
 	Timer gameTimer;
 	boolean songPlayed3 = false;
@@ -56,7 +56,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	final int endState = 7;
 	int currentState = menuState;
 	int virusSpawnerTimer = 1;
-	int messageTimer = 1080;
+	int messageTimer = 0;
 	Graphics g;
 	public static BufferedImage Bees;
 
@@ -106,7 +106,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
 
 			if (currentState == selectAntiVirusState) {
-				currentState = BossState;
+				currentState = gameState;
 				manager.anti = manager.regular;
 
 			}
@@ -115,7 +115,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		else if (e.getKeyCode() == KeyEvent.VK_S) {
 
 			if (currentState == selectAntiVirusState) {
-				currentState = BossState;
+				currentState = gameState;
 				manager.anti = manager.scatter;
 
 			}
@@ -128,6 +128,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if (manager.anti == manager.regular) {
 				manager.addCode(new Code(manager.regular.x + 25, manager.regular.y, 5, 5));
+	
 			}
 			if (manager.anti == manager.scatter) {
 				manager.addScatterShot(new ScatterShot(manager.scatter.x + 25, manager.scatter.y, 5, 5));
@@ -145,6 +146,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 		if (currentState == gameState) {
 			updateGameState();
+			
 		}
 
 		else if (currentState == BossState) {
@@ -190,7 +192,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == selectAntiVirusState) {
 			drawSelectAntiVirusState(g);
 		} else if (currentState == gameState) {
-			if (PLeft.equals("0.0")) {
+			if (numViruses==0) {
 				currentState = victoryState;
 			}
 
@@ -232,6 +234,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 	void drawMenuState(Graphics g) {
 		manager.reset();
+		messageTimer = 0;
+		virusSpawnerTimer = 0;
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
 		g.setFont(font);
@@ -265,21 +269,21 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		if (virusesDrawn == false) {
 			manager.manageViruses();
 			virusesDrawn = true;
-
 		}
 		int min = secondsLeft / 60;
 		int seconds = secondsLeft % 60;
 
-		PLeft = Double.toString(100.0 * numViruses / 675);
-		String roundDown = PLeft.substring(0, 4);
-
+		
+		
 		g.setFont(font2);
-		g.drawString("Percent Left: " + roundDown + " %", 1300, 150);
+		
+		
 		if (seconds == 0) {
 			g.drawString("Time Left: " + min + ":" + seconds + "0", 600, 160);
 		} else {
 			g.drawString("Time Left: " + min + ":" + seconds, 600, 150);
 		}
+	
 	}
 
 	void drawDeadState(Graphics g) {
@@ -291,7 +295,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("Game Over!", 565, 500);
-		
+		manager.anti.isAlive = true;
+		secondsLeft = 225;
+		secondsLeft2 = 201;
+
 	}
 
 	void drawVictoryState(Graphics g) {
@@ -365,6 +372,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("Thank You For Playing!", 450, 500);
+
 	}
 
 	public void startGame() {

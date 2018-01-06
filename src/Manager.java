@@ -3,7 +3,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class Manager {
-	
+
 	AntiVirus anti;
 	AntiVirus regular;
 	ArrayList<ScatterShot> scatterShots;
@@ -56,7 +56,6 @@ public class Manager {
 		}
 		for (BossVirus b : bossViruses) {
 			checkCollision3(b);
-			
 
 		}
 		for (ScatterShot s : scatterShots) {
@@ -70,7 +69,7 @@ public class Manager {
 
 			if (v.collisionBox.intersects(s.collisionBox)) {
 				Panel.numViruses -= 1;
-				
+
 				v.isAlive = false;
 
 			}
@@ -92,25 +91,24 @@ public class Manager {
 
 		for (int i = 0; i < viruses.size(); i++) {
 			Virus v = viruses.get(i);
-			for(int j=0; j<codes.size(); j++) {
-			
-			Code c =  codes.get(j);
+			for (int j = 0; j < codes.size(); j++) {
 
-			if (v.collisionBox.intersects(c.collisionBox)) {
-				Panel.numViruses -= 1;
-				
-				v.isAlive = false;
-				c.isAlive = false;
-			}
+				Code c = codes.get(j);
+
+				if (v.collisionBox.intersects(c.collisionBox)) {
+					Panel.numViruses -= 1;
+					v.isAlive = false;
+					c.isAlive = false;
+				}
 			}
 			if (v.collisionBox.intersects(anti.collisionBox)) {
-				
+
 				v.isAlive = false;
 				anti.isAlive = false;
 			}
+		
 		}
 	}
-	
 
 	void manageViruses() {
 		Panel.numViruses = 0;
@@ -140,6 +138,7 @@ public class Manager {
 
 	void reset() {
 		viruses.clear();
+		destroyObjects();
 	}
 
 	void draw(Graphics g) {
@@ -209,6 +208,13 @@ public class Manager {
 				codes.remove(c);
 			}
 		}
+		for (int i = 0; i < scatterShots.size(); i++) {
+			ScatterShot s = scatterShots.get(i);
+			if (!s.isAlive) {
+				scatterShots.remove(s);
+			}
+		}
+		
 	}
 
 	int getScore() {
