@@ -10,6 +10,7 @@ public class Manager {
 	ArrayList<Code> codes;
 	ArrayList<Virus> viruses;
 	ArrayList<BossVirus> bossViruses;
+
 	Rectangle collisionBox;
 	AntiVirus scatter;
 	private int score = 0;
@@ -84,7 +85,7 @@ public class Manager {
 		for (int j = 0; j < codes.size(); j++) {
 			Code c = codes.get(j);
 		}
-		checkCollision1();
+
 	}
 
 	void checkCollision1() {
@@ -96,17 +97,25 @@ public class Manager {
 				Code c = codes.get(j);
 
 				if (v.collisionBox.intersects(c.collisionBox)) {
-					Panel.numViruses -= 1;
-					v.isAlive = false;
+				
+					if(v.isAlive) {
+						v.isAlive=false;
+						Panel.numViruses-=1;
+					}
+					
+				
 					c.isAlive = false;
+					
+
 				}
 			}
 			if (v.collisionBox.intersects(anti.collisionBox)) {
-
+Panel.numViruses-=1;
 				v.isAlive = false;
 				anti.isAlive = false;
+				
 			}
-		
+
 		}
 	}
 
@@ -117,7 +126,7 @@ public class Manager {
 
 			for (int i = 1; i < 16; i++) {
 				for (int j = 0; j < 15; j++) {
-					addVirus(new Virus(10 * j + a * 500 - 200, i * 10 + 200, 7, 7));
+					addVirus(new Virus(10* j + a * 500 - 200, i * 10 + 200, 7, 7));
 					Panel.numViruses += 1;
 				}
 
@@ -130,7 +139,6 @@ public class Manager {
 	}
 
 	void BossManageViruses() {
-		Panel.numViruses2 = 0;
 		int m = 1;
 
 		addBossVirus(new BossVirus(800, 300, 250, 250));
@@ -195,6 +203,10 @@ public class Manager {
 		destroyObjects();
 	}
 
+	void removeViruses() {
+		viruses = new ArrayList<Virus>();
+	}
+
 	void destroyObjects() {
 		for (int i = 0; i < viruses.size(); i++) {
 			Virus v = viruses.get(i);
@@ -214,7 +226,7 @@ public class Manager {
 				scatterShots.remove(s);
 			}
 		}
-		
+
 	}
 
 	int getScore() {

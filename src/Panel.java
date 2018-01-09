@@ -27,18 +27,19 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage antiVirusImg;
 	public static BufferedImage bossVirusImg;
 	public static BufferedImage backgroundImg;
-	String PLeft = Double.toString(100.0 *( numViruses / 675));
+	String PLeft = Double.toString(100.0 * (numViruses / 675));
 	boolean songPlayed = false;
 	boolean songPlayed2 = false;
 
 	boolean virusesDrawn = false;
+	boolean bossVirusesDrawn = false;
 	Random random0 = new Random();
-	static int numViruses = 775;
-	static int numViruses2 = 600;
+	static int numViruses = 675;
 	static int secondsLeft = 225;
-	static int secondsLeft2 = 201;
+	static int secondsLeft2 = 212;
 	Timer timer;
 	Timer gameTimer;
+
 	boolean songPlayed3 = false;
 	boolean songPlayed4 = false;
 	Manager manager;
@@ -56,7 +57,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	final int endState = 7;
 	int currentState = menuState;
 	int virusSpawnerTimer = 1;
+	int virusSpawnerTimer2 = 2;
 	int messageTimer = 0;
+	int shotTimer = 0;
 	Graphics g;
 	public static BufferedImage Bees;
 
@@ -100,6 +103,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 				currentState = menuState;
 			} else if (currentState == victoryState) {
 				currentState = BossState;
+				manager.removeViruses();
 			} else if (currentState == BossVictoryState) {
 				currentState = endState;
 			}
@@ -127,11 +131,14 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if (manager.anti == manager.regular) {
+
 				manager.addCode(new Code(manager.regular.x + 25, manager.regular.y, 5, 5));
-	
+
 			}
 			if (manager.anti == manager.scatter) {
+
 				manager.addScatterShot(new ScatterShot(manager.scatter.x + 25, manager.scatter.y, 5, 5));
+
 			}
 		}
 	}
@@ -147,44 +154,24 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		if (currentState == gameState) {
 			updateGameState();
 			
+			shotTimer += 1;
+			
 		}
+	
 
-		else if (currentState == BossState) {
 
-			updateBossState();
 
-			if (messageTimer > 1080) {
-				if (virusSpawnerTimer == 60) {
+	else if(currentState==BossState){
 
-					manager.addVirus(new Virus(random0.nextInt(100), 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 100, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 200, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 300, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 400, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 500, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 600, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 700, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 800, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 900, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 1000, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 1100, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 1200, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 1300, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 1400, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 1500, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 1600, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 1700, 0, 12, 12));
-					manager.addVirus(new Virus(random0.nextInt(100) + 1800, 0, 12, 12));
+	updateBossState();
 
-					virusSpawnerTimer = 1;
-				}
-				virusSpawnerTimer += 1;
-			}
-			messageTimer += 1;
-		}
+	if(messageTimer>1080){if(virusSpawnerTimer==60){
 
-		repaint();
-	}
+	manager.addVirus(new Virus(random0.nextInt(100),0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+100,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+200,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+300,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+400,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+500,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+600,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+700,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+800,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+900,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1000,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1100,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1200,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1300,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1400,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1500,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1600,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1700,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1800,0,12,12));
+
+	virusSpawnerTimer=1;}virusSpawnerTimer+=1;}messageTimer+=1;}
+
+	repaint();}
 
 	public void paintComponent(Graphics g) {
 		if (currentState == menuState) {
@@ -192,7 +179,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == selectAntiVirusState) {
 			drawSelectAntiVirusState(g);
 		} else if (currentState == gameState) {
-			if (numViruses==0) {
+			if (numViruses == 0) {
 				currentState = victoryState;
 			}
 
@@ -258,6 +245,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
+
 		if (manager.anti == manager.regular) {
 			manager.regular.draw(g);
 		} else if (manager.anti == manager.scatter) {
@@ -266,24 +254,23 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
 		manager.draw(g);
-		if (virusesDrawn == false) {
+		if (!virusesDrawn) {
 			manager.manageViruses();
 			virusesDrawn = true;
 		}
 		int min = secondsLeft / 60;
 		int seconds = secondsLeft % 60;
 
-		
-		
 		g.setFont(font2);
-		
-		
+
 		if (seconds == 0) {
 			g.drawString("Time Left: " + min + ":" + seconds + "0", 600, 160);
+		} else if (seconds < 10) {
+			g.drawString("Time Left: " + min + ":" + "0" + seconds, min, seconds);
 		} else {
 			g.drawString("Time Left: " + min + ":" + seconds, 600, 150);
 		}
-	
+
 	}
 
 	void drawDeadState(Graphics g) {
@@ -309,20 +296,21 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
-		g.setFont(font);
+		g.setFont(font2);
 		g.drawString("You Won! Congratulations! On To The Boss Fight!", 450, 500);
 	}
 
 	void drawBossState(Graphics g) {
+		secondsLeft = 201;
 		manager.regular.draw(g);
 		g.setFont(font2);
 
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
 		manager.draw(g);
-		if (virusesDrawn == false) {
+		if (!bossVirusesDrawn) {
 			manager.BossManageViruses();
-			virusesDrawn = true;
+			bossVirusesDrawn = true;
 
 		}
 		int min2 = secondsLeft2 / 60;
@@ -357,7 +345,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		}
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
-		g.setFont(font3);
+		g.setFont(font2);
 		g.drawString(
 				"You Won! Congratulations! \n You Beat the Virus that has been \n plagueing your computer for a long time!",
 				450, 500);
