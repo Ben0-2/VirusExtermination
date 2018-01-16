@@ -52,9 +52,7 @@ public class Manager {
 	}
 
 	void checkCollision() {
-		for (Code c : codes) {
-			checkCollision1();
-		}
+		checkCollision1();
 		for (BossVirus b : bossViruses) {
 			checkCollision3(b);
 
@@ -74,16 +72,24 @@ public class Manager {
 				v.isAlive = false;
 
 			}
-
+			if (v.collisionBox.intersects(scatter.collisionBox)) {
+				System.out.println("collision detected");
+								if(v.isAlive) {
+									v.isAlive=false;
+								}
+								scatter.isAlive = false;
+								
+							}
 		}
 	}
 
 	void checkCollision3(BossVirus b) {
 		for (int i = 0; i < scatterShots.size(); i++) {
 			ScatterShot s = scatterShots.get(i);
+			checkCollision2(s);
 		}
 		for (int j = 0; j < codes.size(); j++) {
-			Code c = codes.get(j);
+			checkCollision1();
 		}
 
 	}
@@ -109,13 +115,15 @@ public class Manager {
 
 				}
 			}
-			if (v.collisionBox.intersects(anti.collisionBox)) {
-Panel.numViruses-=1;
-				v.isAlive = false;
-				anti.isAlive = false;
+			if (v.collisionBox.intersects(regular.collisionBox)) {
+System.out.println("collision detected");
+				if(v.isAlive) {
+					v.isAlive=false;
+				}
+				regular.isAlive = false;
 				
 			}
-
+			
 		}
 	}
 
@@ -180,7 +188,7 @@ Panel.numViruses-=1;
 		for (ScatterShot s : scatterShots) {
 			s.update();
 		}
-
+anti.update();
 		destroyObjects();
 	}
 
@@ -226,6 +234,7 @@ Panel.numViruses-=1;
 				scatterShots.remove(s);
 			}
 		}
+		
 
 	}
 

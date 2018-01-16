@@ -13,16 +13,16 @@ public Virus(int x, int y, int width, int height) {
 	}
 
 void draw(Graphics g) {
-super.draw(g);
+	g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 	g.drawImage(Panel.virusImg, x, y, width, height, null);
 
 }
 void update() {
-	super.update();
+	collisionBox.setBounds(x, y, width, height);
 
 }
 void bossStateUpdate() {
-	update();
+	collisionBox.setBounds(x, y, width, height);
 	y+=speed;
 }
 }

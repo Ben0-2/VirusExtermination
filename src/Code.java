@@ -10,9 +10,9 @@ public class Code extends SuperObject {
 	}
 
 	void draw(Graphics g) {
-		super.draw(g);
+		
 
-		g.drawImage(Panel.codeImg, x, y, 10, 10, null);
+		g.drawImage(Panel.codeImg, x, y, 7, 7, null);
 		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 
 	}

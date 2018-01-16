@@ -3,17 +3,26 @@ import java.awt.Graphics;
 
 public class AntiVirus extends SuperObject{
 int speed = 18;
+boolean scatter=false;
 boolean isAlive = true;
 public AntiVirus(int x, int y, int width, int height) {
 	super(x, y, width, height);
 }
 void draw(Graphics g) {
-	super.draw(g);
+	update();
+	if(!scatter) {
+	g.setColor(Color.RED);
+	}
+	else {
+		g.setColor(Color.CYAN);
+	}
+	
+	g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 	g.drawImage(Panel.antiVirusImg, x, y, width, height, null);
 
 }
 void update() {
-	super.update();
+	collisionBox.setBounds(x,y,50,50);
 
 }
 }

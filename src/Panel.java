@@ -36,7 +36,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	Random random0 = new Random();
 	static int numViruses = 675;
 	static int secondsLeft = 225;
-	static int secondsLeft2 = 212;
+	static int secondsLeft2 = 201;
 	Timer timer;
 	Timer gameTimer;
 
@@ -110,8 +110,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
 
 			if (currentState == selectAntiVirusState) {
-				currentState = gameState;
+				currentState = BossState;
 				manager.anti = manager.regular;
+				manager.anti.scatter=false;
 
 			}
 		}
@@ -119,20 +120,28 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		else if (e.getKeyCode() == KeyEvent.VK_S) {
 
 			if (currentState == selectAntiVirusState) {
-				currentState = gameState;
+				currentState = BossState;
 				manager.anti = manager.scatter;
+				manager.scatter.scatter=true;
 
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			manager.anti.x += 10;
+			if(manager.anti.x>=1900) {
+				manager.anti.x=875;
+			}
 
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			manager.anti.x -= 10;
+			if(manager.anti.x<=0) {
+				manager.anti.x=875;
+			}
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if (manager.anti == manager.regular) {
 
 				manager.addCode(new Code(manager.regular.x + 25, manager.regular.y, 5, 5));
+			
 
 			}
 			if (manager.anti == manager.scatter) {
@@ -164,6 +173,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	else if(currentState==BossState){
 
 	updateBossState();
+	if(!manager.anti.isAlive) {
+		currentState=deadState;
+	}
 
 	if(messageTimer>1080){if(virusSpawnerTimer==60){
 
@@ -274,6 +286,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawDeadState(Graphics g) {
+		
 		if (songPlayed3 == false) {
 			playDeathTheme();
 			songPlayed3 = true;
@@ -301,7 +314,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawBossState(Graphics g) {
-		secondsLeft = 201;
+		
 		manager.regular.draw(g);
 		g.setFont(font2);
 
