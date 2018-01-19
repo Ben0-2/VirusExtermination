@@ -110,7 +110,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
 
 			if (currentState == selectAntiVirusState) {
-				currentState = BossState;
+				currentState = gameState;
 				manager.anti = manager.regular;
 				manager.anti.scatter=false;
 
@@ -120,7 +120,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		else if (e.getKeyCode() == KeyEvent.VK_S) {
 
 			if (currentState == selectAntiVirusState) {
-				currentState = BossState;
+				currentState = gameState;
 				manager.anti = manager.scatter;
 				manager.scatter.scatter=true;
 
@@ -130,12 +130,21 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			if(manager.anti.x>=1900) {
 				manager.anti.x=875;
 			}
-
+		}else if (e.getKeyCode() == KeyEvent.VK_D) {
+				manager.anti.x += 10;
+				if(manager.anti.x>=1900) {
+					manager.anti.x=875;
+				}
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			manager.anti.x -= 10;
 			if(manager.anti.x<=0) {
 				manager.anti.x=875;
 			}
+		}else if (e.getKeyCode() == KeyEvent.VK_A) {
+				manager.anti.x -= 10;
+				if(manager.anti.x<=0) {
+					manager.anti.x=875;
+				}
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if (manager.anti == manager.regular) {
@@ -144,13 +153,13 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			
 
 			}
-			if (manager.anti == manager.scatter) {
+			else if (manager.anti == manager.scatter) {
 
 				manager.addScatterShot(new ScatterShot(manager.scatter.x + 25, manager.scatter.y, 5, 5));
 
 			}
-		}
-	}
+		}}
+	
 
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -257,7 +266,21 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
-
+if(secondsLeft<221 && secondsLeft>210) {
+	drawStringScroll(g, "We Are The First Line Of Defense.");
+}
+else if(secondsLeft<210&&secondsLeft>205) {
+	drawStringScroll(g, "There Is No Way You Can Get Through Us!");
+}
+else if(secondsLeft<205&&secondsLeft>200) {
+	drawStringScroll(g, "We Are The Strongest Defense in Virus History!");
+}
+else if(secondsLeft<200&&secondsLeft>195) {
+	drawStringScroll(g, "If You Defeat Us, You Are Granted A Meeting With The Boss");
+}
+else if(secondsLeft<195 && secondsLeft>190) {
+	drawStringScroll(g, "I Shouldn't Have Said That.");
+}
 		if (manager.anti == manager.regular) {
 			manager.regular.draw(g);
 		} else if (manager.anti == manager.scatter) {
