@@ -147,7 +147,7 @@ System.out.println("collision detected");
 	void BossManageViruses() {
 		int m = 1;
 
-		addBossVirus(new BossVirus(800, 300, 250, 250));
+		addBossVirus(new BossVirus(650, 325, 250, 250));
 	}
 
 	void reset() {
