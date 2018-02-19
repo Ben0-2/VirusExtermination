@@ -72,12 +72,12 @@ public class Manager {
 				v.isAlive = false;
 
 			}
-			if (v.collisionBox.intersects(scatter.collisionBox)) {
+			if (v.collisionBox.intersects(anti.collisionBox)) {
 				System.out.println("collision detected");
 								if(v.isAlive) {
 									v.isAlive=false;
 								}
-								scatter.isAlive = false;
+								anti.isAlive = false;
 								
 							}
 		}
@@ -107,6 +107,7 @@ public class Manager {
 					if(v.isAlive) {
 						v.isAlive=false;
 						Panel.numViruses-=1;
+						//ADD DEATH EFFECT
 					}
 					
 				
@@ -115,12 +116,13 @@ public class Manager {
 
 				}
 			}
-			if (v.collisionBox.intersects(regular.collisionBox)) {
+			if (v.collisionBox.intersects(anti.collisionBox)) {
 System.out.println("collision detected");
 				if(v.isAlive) {
 					v.isAlive=false;
+					//ADD DEATH EFFECT
 				}
-				regular.isAlive = false;
+				anti.isAlive = false;
 				
 			}
 			

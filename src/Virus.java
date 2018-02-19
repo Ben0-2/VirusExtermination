@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Virus extends SuperObject{
 static int speed = 8;
+
 	int gridNum;
 	boolean isAlive = true;
 public Virus(int x, int y, int width, int height) {
@@ -18,6 +19,7 @@ void draw(Graphics g) {
 
 }
 void update() {
+
 	collisionBox.setBounds(x, y, width, height);
 
 }

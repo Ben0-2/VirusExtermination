@@ -35,8 +35,13 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	boolean bossVirusesDrawn = false;
 	Random random0 = new Random();
 	static int numViruses = 675;
+<<<<<<< HEAD
 	static int secondsLeft = 76;
 	static int secondsLeft2 = 201;
+=======
+	static int secondsLeft = 160;
+	static int secondsLeft2 = 111;
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 	Timer timer;
 	Timer gameTimer;
 
@@ -49,6 +54,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	Font font4;
 	Font font5;
 	final int menuState = 0;
+<<<<<<< HEAD
 	final int instructionState = 1;
 	final int selectAntiVirusState = 2;
 	final int gameState = 3;
@@ -57,11 +63,23 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	final int BossState = 6;
 	final int BossVictoryState = 7;
 	final int endState = 8;
+=======
+
+	final int selectAntiVirusState = 1;
+	final int gameState = 2;
+	final int deadState = 3;
+	final int victoryState = 4;
+	final int BossState = 5;
+	final int BossVictoryState = 6;
+	final int endState = 7;
+	final int instructionState = 8;
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 	int currentState = menuState;
 	int virusSpawnerTimer = 1;
-	int virusSpawnerTimer2 = 2;
+	int virusSpawnerTimer2 = 1;
 	int messageTimer = 0;
 	int shotTimer = 0;
+	
 	Graphics g;
 	public static BufferedImage Bees;
 
@@ -103,9 +121,14 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == menuState) {
 				currentState = instructionState;
+<<<<<<< HEAD
 			} else if (currentState == instructionState) {
+=======
+			} else if(currentState == instructionState) {
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 				currentState = selectAntiVirusState;
-			} else if (currentState == deadState) {
+				}else if (currentState == deadState) {
+			
 				currentState = menuState;
 			} else if (currentState == victoryState) {
 				currentState = BossState;
@@ -133,7 +156,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			//MAKE SOMETHING INTERESTING HAPPEN AT HOME!
 			manager.anti.x += 10;
+<<<<<<< HEAD
 			if (manager.anti.x >= 1300) {
 				manager.anti.x = 650;
 			}
@@ -141,6 +166,13 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			manager.anti.x += 10;
 			if (manager.anti.x >= 1300) {
 				manager.anti.x = 650;
+=======
+			if(numViruses<550) {
+				
+			}
+			if(manager.anti.x>=1900) {
+				manager.anti.x=875;
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			manager.anti.x -= 10;
@@ -158,13 +190,24 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 				manager.addCode(new Code(manager.regular.x + 25, manager.regular.y, 5, 5));
 
+<<<<<<< HEAD
 			} else if (manager.anti == manager.scatter) {
+=======
+			}
+			else if(manager.anti == manager.scatter) {
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 
 				manager.addScatterShot(new ScatterShot(manager.scatter.x + 25, manager.scatter.y, 5, 5));
 
 			}
+<<<<<<< HEAD
 		}
 	}
+=======
+			
+		}}
+	
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -176,6 +219,17 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 		if (currentState == gameState) {
 			updateGameState();
+<<<<<<< HEAD
+=======
+			
+			shotTimer += 1;
+			
+			
+			
+		
+		}
+	
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 
 			shotTimer += 1;
 
@@ -209,7 +263,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	public void paintComponent(Graphics g) {
 		if (currentState == menuState) {
 			drawMenuState(g);
-		} else if (currentState == selectAntiVirusState) {
+		}else if(currentState== instructionState) {
+			drawInstructionState(g);
+		}
+		else if (currentState == selectAntiVirusState) {
 			drawSelectAntiVirusState(g);
 		} else if (currentState == instructionState) {
 			drawInstructionState(g);
@@ -240,11 +297,14 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		}
 	}
 
+	
+
 	void updateGameState() {
 
 		manager.update();
 
 		manager.checkCollision();
+	
 	}
 
 	void updateBossState() {
@@ -261,15 +321,21 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
 		g.setFont(font);
+<<<<<<< HEAD
 		g.drawString("Virus Extermination!", 300, 300);
 
 		g.setFont(font5);
 		g.drawString("Press ENTER to look at the instructions, or press S to skip them", 300, 500);
+=======
+		g.drawString("Virus Extermination!", 565, 450);
+		g.drawString("Press Enter to go to the instructions!", 265, 700);
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 		if (songPlayed3 == false) {
 			playStartUpTheme();
 			songPlayed3 = true;
 		}
 	}
+<<<<<<< HEAD
 
 	void drawInstructionState(Graphics g) {
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
@@ -283,6 +349,18 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 	}
 
+=======
+	void drawInstructionState(Graphics g) {
+		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
+		g.setColor(Color.white);
+		g.setFont(font);
+		g.drawString("Press Space to destroy viruses!", 265, 200);
+		g.drawString("Press A or Left Arrow to move AntiVirus left!", 65, 450);
+		g.drawString("Press D or Right Arrow to move AntiVirus right!", 65, 700);
+		g.drawString("Press Enter to select your AntiVirus!", 265, 950);
+		
+	}
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 	void drawSelectAntiVirusState(Graphics g) {
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
@@ -295,6 +373,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
+<<<<<<< HEAD
 		if (secondsLeft < 221 && secondsLeft > 210) {
 			drawStringScroll(g, "We Are The First Line Of Defense.");
 		} else if (secondsLeft < 210 && secondsLeft > 205) {
@@ -306,6 +385,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		} else if (secondsLeft < 195 && secondsLeft > 190) {
 			drawStringScroll(g, "I Shouldn't Have Said That.");
 		}
+=======
+g.setFont(font2);
+
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 		if (manager.anti == manager.regular) {
 			manager.regular.draw(g);
 		} else if (manager.anti == manager.scatter) {
@@ -318,6 +401,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			manager.manageViruses();
 			virusesDrawn = true;
 		}
+		if(numViruses<400);
 		int min = secondsLeft / 60;
 		int seconds = secondsLeft % 60;
 
@@ -326,7 +410,11 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		if (seconds == 0) {
 			g.drawString("Time Left: " + min + ":" + seconds + "0", 600, 150);
 		} else if (seconds < 10) {
+<<<<<<< HEAD
 			g.drawString("Time Left: " + min + ":" + "0" + seconds, 600, 150);
+=======
+			g.drawString("Time Left: " + min + ":" + "0" + seconds, 600, 140);
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 		} else {
 			g.drawString("Time Left: " + min + ":" + seconds, 600, 150);
 		}
@@ -344,7 +432,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(font);
 		g.drawString("Game Over!", 565, 500);
 		manager.anti.isAlive = true;
-		secondsLeft = 225;
+		secondsLeft = 160;
 		secondsLeft2 = 201;
 
 	}
@@ -358,7 +446,12 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
 		g.setFont(font2);
+<<<<<<< HEAD
 		g.drawString("You Won! Congratulations! On To The Boss Fight!", 125, 325);
+=======
+		g.drawString("You Won! Congratulations! On To The Boss Fight!", 450, 500);
+		g.drawString("Press Enter to Confront the Boss Brain!", 450, 750);
+>>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
 	}
 
 	void drawBossState(Graphics g) {
@@ -373,6 +466,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.white);
 		manager.draw(g);
 		if (!bossVirusesDrawn) {
+			secondsLeft=201;
 			manager.BossManageViruses();
 			bossVirusesDrawn = true;
 
@@ -403,16 +497,17 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawBossVictoryState(Graphics g) {
+		
 		if (songPlayed2 == false) {
+			
 			playMarioBrosTheme();
 			songPlayed2 = true;
 		}
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
 		g.setFont(font2);
-		g.drawString(
-				"You Won! Congratulations! \n You Beat the Virus that has been \n plagueing your computer for a long time!",
-				450, 500);
+		g.drawString("You Won! Congratulations!",450, 500);
+		g.drawString("Press Enter To Finish Your Game!", 450, 750);
 	}
 
 	void drawEndState(Graphics g) {
