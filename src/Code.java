@@ -12,14 +12,14 @@ public class Code extends SuperObject {
 	void draw(Graphics g) {
 		
 
-<<<<<<< HEAD
+
 		
 		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 
-=======
+
 		g.drawImage(Panel.codeImg, x, y, 7, 7, null);
 		
->>>>>>> 1478f74d51ceac8894a06bc2831c33382131a9bb
+
 	}
 
 	void update() {
