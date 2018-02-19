@@ -17,7 +17,7 @@ void draw(Graphics g) {
 		g.setColor(Color.CYAN);
 	}
 	
-	g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+	
 	g.drawImage(Panel.antiVirusImg, x, y, width, height, null);
 
 }

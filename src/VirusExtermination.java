@@ -3,8 +3,8 @@ import javax.swing.JFrame;
 public class VirusExtermination {
 JFrame frame;
 Panel panel;
-final int width = 1900;
-final int height= 1000;
+final int width = 1300;
+final int height= 800;
 public VirusExtermination() {
 	frame = new JFrame();
 	panel = new Panel();

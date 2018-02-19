@@ -30,12 +30,12 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	String PLeft = Double.toString(100.0 * (numViruses / 675));
 	boolean songPlayed = false;
 	boolean songPlayed2 = false;
-
+	boolean timeReset = false;
 	boolean virusesDrawn = false;
 	boolean bossVirusesDrawn = false;
 	Random random0 = new Random();
 	static int numViruses = 675;
-	static int secondsLeft = 225;
+	static int secondsLeft = 76;
 	static int secondsLeft2 = 201;
 	Timer timer;
 	Timer gameTimer;
@@ -46,15 +46,17 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	Font font;
 	Font font2;
 	Font font3;
+	Font font4;
+	Font font5;
 	final int menuState = 0;
-
-	final int selectAntiVirusState = 1;
-	final int gameState = 2;
-	final int deadState = 3;
-	final int victoryState = 4;
-	final int BossState = 5;
-	final int BossVictoryState = 6;
-	final int endState = 7;
+    final int instructionState = 1;
+	final int selectAntiVirusState = 2;
+	final int gameState = 3;
+	final int deadState = 4;
+	final int victoryState = 5;
+	final int BossState = 6;
+	final int BossVictoryState = 7;
+	final int endState = 8;
 	int currentState = menuState;
 	int virusSpawnerTimer = 1;
 	int virusSpawnerTimer2 = 2;
@@ -84,7 +86,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		gameTimer = new Timer(1000, new GameTimer());
 		font = new Font("Bangla MN", Font.PLAIN, 72);
 		font2 = new Font("Bangla MN", Font.PLAIN, 36);
-		font3 = new Font("Bangla MN", Font.PLAIN, 15);
+		font3 = new Font("Bangla MN", Font.PLAIN, 16);
+		font4 = new Font("Bangla MN", Font.PLAIN, 54);
+		font5 = new Font("Bangla MN", Font.PLAIN, 24);
 		manager = new Manager();
 
 	}
@@ -98,8 +102,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == menuState) {
+				currentState = instructionState;
+			} else if(currentState==instructionState){
 				currentState = selectAntiVirusState;
-			} else if (currentState == deadState) {
+			}else if (currentState == deadState) {
 				currentState = menuState;
 			} else if (currentState == victoryState) {
 				currentState = BossState;
@@ -188,7 +194,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 	if(messageTimer>1080){if(virusSpawnerTimer==60){
 
-	manager.addVirus(new Virus(random0.nextInt(100),0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+100,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+200,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+300,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+400,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+500,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+600,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+700,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+800,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+900,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1000,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1100,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1200,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1300,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1400,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1500,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1600,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1700,0,12,12));manager.addVirus(new Virus(random0.nextInt(100)+1800,0,12,12));
+	for(int i=0; i<52; i++) {
+		int random = new Random().nextInt(25);
+		manager.addVirus(new Virus(i*25 + random, 0, 7, 7));
+	}
 
 	virusSpawnerTimer=1;}virusSpawnerTimer+=1;}messageTimer+=1;}
 
@@ -199,7 +208,11 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			drawMenuState(g);
 		} else if (currentState == selectAntiVirusState) {
 			drawSelectAntiVirusState(g);
-		} else if (currentState == gameState) {
+		}
+		else if(currentState == instructionState) {
+			drawInstructionState(g);
+		}
+		else if (currentState == gameState) {
 			if (numViruses == 0) {
 				currentState = victoryState;
 			}
@@ -247,22 +260,35 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
 		g.setFont(font);
-		g.drawString("Virus Extermination!", 565, 450);
+		g.drawString("Virus Extermination!", 300, 300);
+		
+		g.setFont(font5);
+		g.drawString("Press ENTER to look at the instructions, or press S to skip them", 300, 500);
 		if (songPlayed3 == false) {
 			playStartUpTheme();
 			songPlayed3 = true;
 		}
 	}
-
+void drawInstructionState(Graphics g) {
+	g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
+	g.setColor(Color.white);
+	g.setFont(font4);
+	g.drawString("Press SPACE to destroy Viruses!", 200, 55);
+	g.drawString("Press LEFT KEY or A to move left!", 200, 270);
+	g.drawString("Press RIGHT KEY or D to move Right!", 200, 485);
+	g.setFont(font2);
+	g.drawString("Press ENTER to confront the first line of defense!", 200, 700);
+	
+}
 	void drawSelectAntiVirusState(Graphics g) {
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
 		g.setFont(font);
-		g.drawString("Choose an Anti-virus Software!", 300, 250);
+		g.drawString("Choose an Anti-virus Software!", 75, 250);
 		g.setFont(font2);
 
-		g.drawString("Press R for Regular Software", 400, 450);
-		g.drawString("Press S for Scatter Software", 1100, 450);
+		g.drawString("Press R for Regular Software", 100, 450);
+		g.drawString("Press S for Scatter Software", 700, 450);
 	}
 
 	void drawGameState(Graphics g) {
@@ -337,7 +363,10 @@ else if(secondsLeft<195 && secondsLeft>190) {
 	}
 
 	void drawBossState(Graphics g) {
-		
+		if(!timeReset) {
+			secondsLeft2 = 111;
+			timeReset = true;
+		}
 		manager.regular.draw(g);
 		g.setFont(font2);
 
@@ -368,7 +397,7 @@ else if(secondsLeft<195 && secondsLeft>190) {
 		} else if (messageTimer >= 540 && messageTimer < 720) {
 			drawStringScroll(g, "But, you cannot defeat me!");
 		} else if (messageTimer >= 720 && messageTimer < 900) {
-			drawStringScroll(g, "If you can live through this death for 3 minutes, I will leave");
+			drawStringScroll(g, "If you can live through this death for 1.5 minutes, I will leave");
 		} else if (messageTimer >= 900 && messageTimer < 1080) {
 			drawStringScroll(g, "PREPARE TO DIE");
 		}
@@ -455,6 +484,6 @@ else if(secondsLeft<195 && secondsLeft>190) {
 	}
 
 	public void drawStringScroll(Graphics g, String s) {
-		g.drawString(s, 250, 250);
+		g.drawString(s, 100, 250);
 	}
 }

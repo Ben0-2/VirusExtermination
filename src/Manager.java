@@ -21,13 +21,13 @@ public class Manager {
 	public Manager() {
 		viruses = new ArrayList<Virus>();
 		codes = new ArrayList<Code>();
-		anti = new AntiVirus(875, 850, 50, 50);
+		anti = new AntiVirus(650, 650, 50, 50);
 		bossViruses = new ArrayList<BossVirus>();
 		scatterShots = new ArrayList<ScatterShot>();
 
-		regular = new AntiVirus(875, 850, 50, 50);
+		regular = new AntiVirus(650, 650, 50, 50);
 
-		scatter = new AntiVirus(875, 850, 50, 50);
+		scatter = new AntiVirus(650, 650, 50, 50);
 	}
 
 	void addVirus(Virus o) {
@@ -129,19 +129,17 @@ System.out.println("collision detected");
 
 	void manageViruses() {
 		Panel.numViruses = 0;
-		for (int a = 1; a < 4; a++) {
-			int m = 1;
+		for (int a = 1; a < 3; a++) {
+			
 
 			for (int i = 1; i < 16; i++) {
 				for (int j = 0; j < 15; j++) {
-					addVirus(new Virus(10* j + a * 500 - 200, i * 10 + 200, 7, 7));
+					addVirus(new Virus(10* j + a * 500, i * 10 + 200, 7, 7));
 					Panel.numViruses += 1;
 				}
 
 			}
-			if (m < 3) {
-				m += 1;
-			}
+			
 
 		}
 	}

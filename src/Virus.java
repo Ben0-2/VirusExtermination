@@ -13,7 +13,7 @@ public Virus(int x, int y, int width, int height) {
 	}
 
 void draw(Graphics g) {
-	g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+	
 	g.drawImage(Panel.virusImg, x, y, width, height, null);
 
 }
