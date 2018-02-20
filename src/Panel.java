@@ -295,17 +295,6 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
-		if (secondsLeft < 221 && secondsLeft > 210) {
-			drawStringScroll(g, "We Are The First Line Of Defense.");
-		} else if (secondsLeft < 210 && secondsLeft > 205) {
-			drawStringScroll(g, "There Is No Way You Can Get Through Us!");
-		} else if (secondsLeft < 205 && secondsLeft > 200) {
-			drawStringScroll(g, "We Are The Strongest Defense in Virus History!");
-		} else if (secondsLeft < 200 && secondsLeft > 195) {
-			drawStringScroll(g, "If You Defeat Us, You Are Granted A Meeting With The Boss");
-		} else if (secondsLeft < 195 && secondsLeft > 190) {
-			drawStringScroll(g, "I Shouldn't Have Said That.");
-		}
 		if (manager.anti == manager.regular) {
 			manager.regular.draw(g);
 		} else if (manager.anti == manager.scatter) {
@@ -325,7 +314,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 		if (seconds == 0) {
 			g.drawString("Time Left: " + min + ":" + seconds + "0", 600, 150);
-		} else if (seconds < 10) {
+		} else if (seconds < 10 && seconds>0) {
 			g.drawString("Time Left: " + min + ":" + "0" + seconds, 600, 150);
 		} else {
 			g.drawString("Time Left: " + min + ":" + seconds, 600, 150);
