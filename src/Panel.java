@@ -193,7 +193,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 					for (int i = 0; i < 26; i++) {
 						int random = new Random().nextInt(50);
-						manager.addVirus(new Virus(i * 50 + random, 0, 10, 10));
+						manager.addVirus(new Virus(i * 50 + random, 0, 15, 15));
 					}
 
 					virusSpawnerTimer = 1;
@@ -341,8 +341,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		}
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
-		g.setFont(font);
-		g.drawString("Game Over!", 565, 500);
+		g.setFont(font);  
+		g.drawString("Game Over!", 350, 325);
+		g.drawString("Press ENTER to return to the menu!", 350, 500);
 		manager.anti.isAlive = true;
 		secondsLeft = 225;
 		secondsLeft2 = 201;

@@ -136,7 +136,7 @@ System.out.println("collision detected");
 
 			for (int i = 1; i < 16; i++) {
 				for (int j = 0; j < 15; j++) {
-					addVirus(new Virus(10* j + a * 500, i * 10 + 200, 7, 7));
+					addVirus(new Virus(10* j + a * 500 -200, i * 10 + 200, 7, 7));
 					Panel.numViruses += 1;
 				}
 
@@ -149,7 +149,7 @@ System.out.println("collision detected");
 	void BossManageViruses() {
 		int m = 1;
 
-		addBossVirus(new BossVirus(650, 325, 250, 250));
+		addBossVirus(new BossVirus(450, 225, 250, 250));
 	}
 
 	void reset() {
