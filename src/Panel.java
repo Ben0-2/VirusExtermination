@@ -36,7 +36,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	Random random0 = new Random();
 	static int numViruses = 675;
 	static int secondsLeft = 76;
-	static int secondsLeft2 = 201;
+	static int secondsLeft2 = 111;
 	Timer timer;
 	Timer gameTimer;
 
@@ -191,9 +191,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 			if (messageTimer > 1080) {
 				if (virusSpawnerTimer == 60) {
 
-					for (int i = 0; i < 52; i++) {
-						int random = new Random().nextInt(25);
-						manager.addVirus(new Virus(i * 25 + random, 0, 10, 10));
+					for (int i = 0; i < 26; i++) {
+						int random = new Random().nextInt(50);
+						manager.addVirus(new Virus(i * 50 + random, 0, 10, 10));
 					}
 
 					virusSpawnerTimer = 1;
@@ -359,6 +359,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.white);
 		g.setFont(font2);
 		g.drawString("You Won! Congratulations! On To The Boss Fight!", 125, 325);
+		g.drawString("Press ENTER to confront the boss!", 250, 500);
 	}
 
 	void drawBossState(Graphics g) {
@@ -411,6 +412,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.white);
 		g.setFont(font2);
 		g.drawString("You Won! Congratulations!",250, 325);
+		g.drawString("Press ENTER to finish the game!", 250, 500);
 	}
 
 	void drawEndState(Graphics g) {
@@ -422,6 +424,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("Thank You For Playing!", 250, 325);
+		g.drawString("Press ENTER to go back to the menu!", 250, 325);
 
 	}
 
