@@ -39,7 +39,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	static int secondsLeft2 = 111;
 	Timer timer;
 	Timer gameTimer;
-
+boolean timereset2 = false;
 	boolean songPlayed3 = false;
 	boolean songPlayed4 = false;
 	Manager manager;
@@ -107,11 +107,14 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 				currentState = selectAntiVirusState;
 			} else if (currentState == deadState) {
 				currentState = menuState;
+				System.exit(0);
 			} else if (currentState == victoryState) {
 				currentState = BossState;
 				manager.removeViruses();
 			} else if (currentState == BossVictoryState) {
 				currentState = endState;
+			} else if(currentState == endState) {
+				System.exit(0);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_R) {
 
@@ -193,7 +196,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 					for (int i = 0; i < 26; i++) {
 						int random = new Random().nextInt(50);
-						manager.addVirus(new Virus(i * 50 + random, 0, 15, 15));
+						manager.addVirus(new Virus(i * 50 + random, 0, 14, 14));
 					}
 
 					virusSpawnerTimer = 1;
@@ -295,6 +298,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
+		if(!timereset2) {
+			secondsLeft =76;
+			timereset2 = true;
+		}
 		if (manager.anti == manager.regular) {
 			manager.regular.draw(g);
 		} else if (manager.anti == manager.scatter) {
@@ -331,8 +338,12 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.drawImage(backgroundImg, 0, 0, 1900, 1000, null);
 		g.setColor(Color.white);
 		g.setFont(font);  
-		g.drawString("Game Over!", 350, 325);
-		g.drawString("Press ENTER to return to the menu!", 350, 500);
+		g.drawString("Game Over! :(", 350, 325);
+		g.setFont(font5);
+		g.drawString("Press ENTER to close the game.", 350, 500);
+		timeReset = false;
+		timereset2 = false;
+		messageTimer = 0;
 		manager.anti.isAlive = true;
 		secondsLeft = 225;
 		secondsLeft2 = 201;
@@ -349,7 +360,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.white);
 		g.setFont(font2);
 		g.drawString("You Won! Congratulations! On To The Boss Fight!", 125, 325);
-		g.drawString("Press ENTER to confront the boss!", 250, 500);
+		g.setFont(font5);
+		g.drawString("Press ENTER to confront the boss!", 350, 500);
+		g.drawString("You no longer have to confront the first line!", 250, 675);
 	}
 
 	void drawBossState(Graphics g) {
@@ -389,7 +402,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		} else if (messageTimer >= 720 && messageTimer < 900) {
 			drawStringScroll(g, "If you can live through this death for 1.5 minutes, I will leave");
 		} else if (messageTimer >= 900 && messageTimer < 1080) {
-			drawStringScroll(g, "PREPARE TO DIE");
+			drawStringScroll(g, "PREPARE TO DIE. Viruses, attack!");
 		}
 	}
 
@@ -414,7 +427,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 		g.setColor(Color.white);
 		g.setFont(font);
 		g.drawString("Thank You For Playing!", 250, 325);
-		g.drawString("Press ENTER to go back to the menu!", 250, 325);
+		g.drawString("Press ENTER to go back to exit!", 250, 325);
 
 	}
 
